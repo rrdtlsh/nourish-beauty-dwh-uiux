@@ -1,0 +1,32 @@
+2025-12-04 07:58:22,084 - __main__ - INFO - ================================================================================
+2025-12-04 07:58:22,121 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-04 07:58:22,121 - __main__ - INFO -    Date: 2025-12-04 07:58:22
+2025-12-04 07:58:22,121 - __main__ - INFO - ================================================================================
+2025-12-04 07:58:22,443 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 07:58:25,129 - __main__ - ERROR - 
+================================================================================
+2025-12-04 07:58:25,131 - __main__ - ERROR - ================================================================================
+2025-12-04 07:58:25,133 - __main__ - ERROR - Traceback (most recent call last):
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\run_etl.py", line 62, in run_etl_pipeline
+    df_sales = extract_sales_data()
+               ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\etl\extract\extract_sales.py", line 31, in extract_sales_data
+    df = pd.read_csv(file_path, delimiter=';', encoding='utf-8')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\FILE SM 5\\nourish-beauty-dwh-uiux\\data\\raw\\SuperMarket-Analysis-penjualan.csv'
+

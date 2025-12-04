@@ -1,0 +1,44 @@
+2025-12-04 09:30:04,407 - __main__ - INFO - ================================================================================
+2025-12-04 09:30:04,407 - __main__ - INFO - NOURISH BEAUTY DATA WAREHOUSE - ETL PIPELINE
+2025-12-04 09:30:04,408 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-04 09:30:04,408 - __main__ - INFO -    Date: 2025-12-04 09:30:04
+2025-12-04 09:30:04,408 - __main__ - INFO - ================================================================================
+2025-12-04 09:30:04,408 - __main__ - INFO - 
+2025-12-04 09:30:04,408 - __main__ - INFO - STEP 1: Testing Database Connection
+2025-12-04 09:30:04,408 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 09:30:04,809 - __main__ - INFO - 
+2025-12-04 09:30:04,810 - __main__ - INFO - STEP 2: EXTRACT PHASE
+2025-12-04 09:30:04,810 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 09:30:05,410 - __main__ - INFO - Extracting Sales Data...
+2025-12-04 09:30:05,410 - etl.extract.extract_sales - INFO - Starting sales data extraction...
+2025-12-04 09:30:05,411 - etl.extract.extract_sales - ERROR - [ERROR] Error extracting sales data: [Errno 2] No such file or directory: 'D:\\FILE SM 5\\nourish-beauty-dwh-uiux\\data\\raw\\SuperMarket Analysis penjualan.csv'
+2025-12-04 09:30:05,411 - __main__ - ERROR - 
+2025-12-04 09:30:05,411 - __main__ - INFO - ================================================================================
+2025-12-04 09:30:05,411 - __main__ - ERROR - [ERROR] ETL PIPELINE FAILED: [Errno 2] No such file or directory: 'D:\\FILE SM 5\\nourish-beauty-dwh-uiux\\data\\raw\\SuperMarket Analysis penjualan.csv'
+2025-12-04 09:30:05,411 - __main__ - INFO - ================================================================================
+2025-12-04 09:30:05,413 - __main__ - ERROR - Traceback (most recent call last):
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\run_etl.py", line 85, in run_etl_pipeline
+    df_sales = extract_sales_data()
+               ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\etl\extract\extract_sales.py", line 33, in extract_sales_data
+    df = pd.read_csv(file_path, delimiter=';', encoding='utf-8')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\FILE SM 5\\nourish-beauty-dwh-uiux\\data\\raw\\SuperMarket Analysis penjualan.csv'
+
+2025-12-04 09:30:05,413 - __main__ - ERROR - Failed after: 1.00 seconds
+2025-12-04 09:30:05,413 - __main__ - INFO - ================================================================================

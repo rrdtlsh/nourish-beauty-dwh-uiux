@@ -1,0 +1,38 @@
+2025-12-04 08:02:53,542 - __main__ - INFO - ================================================================================
+2025-12-04 08:02:53,542 - __main__ - INFO - NOURISH BEAUTY DATA WAREHOUSE - ETL PIPELINE
+2025-12-04 08:02:53,542 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-04 08:02:53,542 - __main__ - INFO -    Date: 2025-12-04 08:02:53
+2025-12-04 08:02:53,543 - __main__ - INFO - ================================================================================
+2025-12-04 08:02:53,543 - __main__ - INFO - 
+STEP 1: Testing Database Connection...
+2025-12-04 08:02:54,286 - __main__ - INFO - 
+STEP 2: EXTRACT PHASE
+2025-12-04 08:02:54,286 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 08:02:56,815 - __main__ - INFO - Extracting Sales Data...
+2025-12-04 08:02:56,815 - etl.extract.extract_sales - INFO - 🔄 Starting sales data extraction...
+2025-12-04 08:02:56,836 - etl.extract.extract_sales - INFO - ✅ Loaded 1002 rows from SuperMarket-Analysis-penjualan.csv
+2025-12-04 08:02:56,836 - etl.extract.extract_sales - INFO -    Columns: ['id_invoice', 'cabang', 'kota', 'tipe_customer', 'jenis_kelamin', 'kategori_produk', 'harga_satuan', 'jumlah', 'pajak_5_persen', 'tanggal', 'waktu', 'metode_pembayaran', 'total_penjualan_sebelum_pajak', 'persentase_gross_margin', 'pendapatan_kotor', 'rating']
+2025-12-04 08:02:56,855 - etl.extract.extract_sales - INFO - 💾 Saved to staging: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\staging\staging_sales.csv
+2025-12-04 08:02:56,855 - etl.extract.extract_sales - INFO - 🔄 Loading sales data to staging_sales table...
+2025-12-04 08:02:56,971 - etl.extract.extract_sales - ERROR - ❌ Error loading to staging: Not an executable object: 'TRUNCATE TABLE staging_sales'
+2025-12-04 08:02:56,972 - __main__ - ERROR - 
+================================================================================
+2025-12-04 08:02:56,972 - __main__ - ERROR - ETL PIPELINE FAILED: Not an executable object: 'TRUNCATE TABLE staging_sales'
+2025-12-04 08:02:56,972 - __main__ - ERROR - ================================================================================
+2025-12-04 08:02:57,011 - __main__ - ERROR - Traceback (most recent call last):
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1415, in execute
+    meth = statement._execute_on_connection
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute '_execute_on_connection'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\run_etl.py", line 69, in run_etl_pipeline
+    load_sales_staging(df_sales)
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\etl\extract\extract_sales.py", line 81, in load_to_staging_db
+    conn.execute("TRUNCATE TABLE staging_sales")
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1417, in execute
+    raise exc.ObjectNotExecutableError(statement) from err
+sqlalchemy.exc.ObjectNotExecutableError: Not an executable object: 'TRUNCATE TABLE staging_sales'
+

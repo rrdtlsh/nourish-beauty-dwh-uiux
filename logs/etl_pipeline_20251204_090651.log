@@ -1,0 +1,26 @@
+2025-12-04 09:06:51,074 - __main__ - INFO - ================================================================================
+2025-12-04 09:06:51,079 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-04 09:06:51,079 - __main__ - INFO -    Date: 2025-12-04 09:06:51
+2025-12-04 09:06:51,079 - __main__ - INFO - ================================================================================
+2025-12-04 09:06:51,350 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 09:06:51,783 - etl.extract.extract_sales - INFO -    Columns: ['id_invoice', 'cabang', 'kota', 'tipe_customer', 'jenis_kelamin', 'kategori_produk', 'harga_satuan', 'jumlah', 'pajak_5_persen', 'tanggal', 'waktu', 'metode_pembayaran', 'total_penjualan_sebelum_pajak', 'persentase_gross_margin', 'pendapatan_kotor', 'rating']
+2025-12-04 09:06:51,880 - __main__ - ERROR - 
+================================================================================
+2025-12-04 09:06:51,880 - __main__ - ERROR - ================================================================================
+2025-12-04 09:06:51,880 - __main__ - ERROR - Traceback (most recent call last):
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1415, in execute
+    meth = statement._execute_on_connection
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute '_execute_on_connection'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\run_etl.py", line 63, in run_etl_pipeline
+    load_sales_staging(df_sales)
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\etl\extract\extract_sales.py", line 81, in load_to_staging_db
+    conn.execute("TRUNCATE TABLE staging_sales")
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1417, in execute
+    raise exc.ObjectNotExecutableError(statement) from err
+sqlalchemy.exc.ObjectNotExecutableError: Not an executable object: 'TRUNCATE TABLE staging_sales'
+

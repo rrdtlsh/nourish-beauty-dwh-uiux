@@ -1,0 +1,422 @@
+2025-12-04 10:22:21,074 - __main__ - INFO - ================================================================================
+2025-12-04 10:22:21,074 - __main__ - INFO - NOURISH BEAUTY DATA WAREHOUSE - ETL PIPELINE
+2025-12-04 10:22:21,075 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-04 10:22:21,075 - __main__ - INFO -    Date: 2025-12-04 10:22:21
+2025-12-04 10:22:21,075 - __main__ - INFO - ================================================================================
+2025-12-04 10:22:21,075 - __main__ - INFO - 
+2025-12-04 10:22:21,075 - __main__ - INFO - STEP 1: Testing Database Connection
+2025-12-04 10:22:21,075 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 10:22:21,392 - __main__ - INFO - 
+2025-12-04 10:22:21,392 - __main__ - INFO - STEP 2: EXTRACT PHASE
+2025-12-04 10:22:21,392 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 10:22:21,808 - __main__ - INFO - Extracting Sales Data...
+2025-12-04 10:22:21,813 - etl.extract.extract_sales - INFO - Starting sales data extraction...
+2025-12-04 10:22:21,813 - etl.extract.extract_sales - INFO - Reading file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\raw\SuperMarket-Analysis-penjualan.csv
+2025-12-04 10:22:21,815 - etl.extract.extract_sales - INFO - [OK] Loaded 1000 rows from SuperMarket-Analysis-penjualan.csv
+2025-12-04 10:22:21,815 - etl.extract.extract_sales - INFO - Applying transformations...
+2025-12-04 10:22:21,815 - etl.transform.transform_sales - INFO - Applying 40 transformation rules to sales data...
+2025-12-04 10:22:21,815 - etl.transform.transform_sales - INFO -    Initial row count: 1000
+2025-12-04 10:22:21,815 - etl.transform.transform_sales - INFO - RULE 0: Pre-cleaning Indonesian number format...
+2025-12-04 10:22:21,823 - etl.transform.transform_sales - INFO -    Fixed persentase_gross_margin scale
+2025-12-04 10:22:21,824 - etl.transform.transform_sales - INFO - RULE 1-5: Data Type Conversion
+2025-12-04 10:22:21,827 - etl.transform.transform_sales - INFO - RULE 6-10: Handle Missing Values
+2025-12-04 10:22:21,828 - etl.transform.transform_sales - INFO - RULE 11-15: Data Cleaning
+2025-12-04 10:22:21,834 - etl.transform.transform_sales - INFO - RULE 16-20: Standardization
+2025-12-04 10:22:21,837 - etl.transform.transform_sales - INFO - RULE 21-25: Calculate Derived Fields
+2025-12-04 10:22:21,837 - etl.transform.transform_sales - INFO - RULE 26-30: Validation & Quality Checks
+2025-12-04 10:22:21,842 - etl.transform.transform_sales - INFO - RULE 31-35: Business Logic & Categorization
+2025-12-04 10:22:21,849 - etl.transform.transform_sales - INFO - RULE 36-40: Final Cleaning & Outlier Removal
+2025-12-04 10:22:21,854 - etl.transform.transform_sales - INFO - [OK] Transformation complete!
+2025-12-04 10:22:21,854 - etl.transform.transform_sales - INFO -    Initial rows: 1000
+2025-12-04 10:22:21,854 - etl.transform.transform_sales - INFO -    Final rows: 991
+2025-12-04 10:22:21,854 - etl.transform.transform_sales - INFO -    Removed: 9 (0.9%)
+2025-12-04 10:22:21,854 - etl.transform.transform_sales - INFO -    Retention rate: 99.1%
+2025-12-04 10:22:21,870 - etl.extract.extract_sales - INFO - [OK] Saved to staging file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\staging\staging_sales.csv
+2025-12-04 10:22:21,870 - etl.extract.extract_sales - INFO - [OK] Extraction complete: 991 records ready
+2025-12-04 10:22:21,875 - etl.extract.extract_sales - INFO - Loading sales data to staging_sales table...
+2025-12-04 10:22:21,875 - etl.extract.extract_sales - INFO -    Records to load: 991
+2025-12-04 10:22:21,876 - etl.extract.extract_sales - INFO -    Truncating staging_sales table...
+2025-12-04 10:22:21,932 - etl.extract.extract_sales - INFO -    Loading data in 2 chunks of 500 rows...
+2025-12-04 10:22:22,096 - etl.extract.extract_sales - INFO -    Chunk 1/2 loaded (500 rows)
+2025-12-04 10:22:22,222 - etl.extract.extract_sales - INFO -    Chunk 2/2 loaded (491 rows)
+2025-12-04 10:22:22,222 - etl.extract.extract_sales - INFO - [OK] Successfully loaded 991 rows to staging_sales
+2025-12-04 10:22:22,222 - etl.extract.extract_sales - INFO - [OK] Verified staging_sales row count: 991
+2025-12-04 10:22:22,222 - __main__ - INFO - Extracting HR Data...
+2025-12-04 10:22:22,222 - etl.extract.extract_hr - INFO - Starting HR data extraction...
+2025-12-04 10:22:22,222 - etl.extract.extract_hr - INFO - Reading file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\raw\HRDataset.csv
+2025-12-04 10:22:22,222 - etl.extract.extract_hr - INFO - [OK] Loaded 311 rows from HRDataset.csv
+2025-12-04 10:22:22,222 - etl.extract.extract_hr - INFO -    Columns: 36
+2025-12-04 10:22:22,238 - etl.extract.extract_hr - INFO -    Converting date column: dob
+2025-12-04 10:22:22,240 - etl.extract.extract_hr - INFO -    Converting date column: dateofhire
+2025-12-04 10:22:22,242 - etl.extract.extract_hr - INFO -    Converting date column: dateoftermination
+2025-12-04 10:22:22,244 - etl.extract.extract_hr - INFO -    Converting date column: lastperformancereview_date
+2025-12-04 10:22:22,259 - etl.extract.extract_hr - INFO - [OK] Saved to staging file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\staging\staging_hr.csv
+2025-12-04 10:22:22,259 - etl.extract.extract_hr - INFO - [OK] Extraction complete: 311 records ready
+2025-12-04 10:22:22,259 - etl.extract.extract_hr - INFO - Loading HR data to staging_hr table...
+2025-12-04 10:22:22,259 - etl.extract.extract_hr - INFO -    Records to load: 311
+2025-12-04 10:22:22,259 - etl.extract.extract_hr - INFO -    Truncating staging_hr table...
+2025-12-04 10:22:22,306 - etl.extract.extract_hr - INFO -    Loading rows individually...
+2025-12-04 10:22:22,745 - etl.extract.extract_hr - INFO -    Progress: 50/311 rows loaded
+2025-12-04 10:22:23,158 - etl.extract.extract_hr - INFO -    Progress: 100/311 rows loaded
+2025-12-04 10:22:23,641 - etl.extract.extract_hr - INFO -    Progress: 150/311 rows loaded
+2025-12-04 10:22:24,049 - etl.extract.extract_hr - INFO -    Progress: 200/311 rows loaded
+2025-12-04 10:22:24,549 - etl.extract.extract_hr - INFO -    Progress: 250/311 rows loaded
+2025-12-04 10:22:25,039 - etl.extract.extract_hr - INFO -    Progress: 300/311 rows loaded
+2025-12-04 10:22:25,135 - etl.extract.extract_hr - INFO -    Progress: 311/311 rows loaded
+2025-12-04 10:22:25,135 - etl.extract.extract_hr - INFO - [OK] Successfully loaded 311 rows
+2025-12-04 10:22:25,135 - etl.extract.extract_hr - INFO - [OK] Verified row count: 311
+2025-12-04 10:22:25,139 - __main__ - INFO - Extracting Marketing Data...
+2025-12-04 10:22:25,139 - etl.extract.extract_marketing - INFO - Starting marketing data extraction...
+2025-12-04 10:22:25,139 - etl.extract.extract_marketing - INFO - Reading file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\raw\marketing_campaign.csv
+2025-12-04 10:22:25,139 - etl.extract.extract_marketing - INFO -    Trying delimiter: '	'
+2025-12-04 10:22:25,142 - etl.extract.extract_marketing - WARNING -    Failed: only 1 columns detected
+2025-12-04 10:22:25,142 - etl.extract.extract_marketing - INFO -    Trying delimiter: ';'
+2025-12-04 10:22:25,166 - etl.extract.extract_marketing - INFO -    [OK] Successfully read with delimiter ';'
+2025-12-04 10:22:25,167 - etl.extract.extract_marketing - INFO -    Columns detected: 29
+2025-12-04 10:22:25,167 - etl.extract.extract_marketing - INFO - [OK] Loaded 1000 rows from marketing_campaign.csv
+2025-12-04 10:22:25,167 - etl.extract.extract_marketing - INFO -    Columns: ['ID', 'Year_Birth', 'Education', 'Marital_Status', 'Income']... (29 total)
+2025-12-04 10:22:25,168 - etl.extract.extract_marketing - INFO -    Converting date column: dt_customer
+2025-12-04 10:22:25,189 - etl.extract.extract_marketing - INFO - [OK] Saved to staging file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\staging\staging_marketing.csv
+2025-12-04 10:22:25,189 - etl.extract.extract_marketing - INFO - [OK] Extraction complete: 1000 records ready
+2025-12-04 10:22:25,189 - etl.extract.extract_marketing - INFO - Loading marketing data to staging_marketing table...
+2025-12-04 10:22:25,189 - etl.extract.extract_marketing - INFO -    Records to load: 1000
+2025-12-04 10:22:25,189 - etl.extract.extract_marketing - INFO -    Dropping and recreating staging_marketing table...
+2025-12-04 10:22:25,236 - etl.extract.extract_marketing - INFO -    Loading data with auto-schema detection...
+2025-12-04 10:22:25,641 - etl.extract.extract_marketing - INFO - [OK] Successfully loaded 1000 rows
+2025-12-04 10:22:25,641 - etl.extract.extract_marketing - INFO - [OK] Verified row count: 1000
+2025-12-04 10:22:25,641 - __main__ - INFO - [OK] Extract phase completed!
+2025-12-04 10:22:25,641 - __main__ - INFO - 
+2025-12-04 10:22:25,641 - __main__ - INFO - STEP 3: TRANSFORM PHASE
+2025-12-04 10:22:25,641 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 10:22:25,641 - __main__ - INFO - Transformation rules will be applied during load phase
+2025-12-04 10:22:25,641 - __main__ - INFO - [OK] 40 transformation rules ready
+2025-12-04 10:22:25,641 - __main__ - INFO - 
+2025-12-04 10:22:25,641 - __main__ - INFO - STEP 4: LOAD DIMENSIONS
+2025-12-04 10:22:25,641 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 10:22:25,663 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-04 10:22:25,663 - etl.load.load_dimensions - INFO - STARTING DIMENSION LOAD PROCESS
+2025-12-04 10:22:25,663 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-04 10:22:25,663 - etl.load.load_dimensions - INFO - Loading dim_produk...
+2025-12-04 10:22:25,845 - etl.load.load_dimensions - INFO - [OK] Loaded 6 products to dim_produk
+2025-12-04 10:22:25,845 - etl.load.load_dimensions - INFO - Loading dim_customer...
+2025-12-04 10:22:26,096 - etl.load.load_dimensions - INFO - [OK] Loaded 1000 customers to dim_customer
+2025-12-04 10:22:26,096 - etl.load.load_dimensions - INFO - Loading dim_employee...
+2025-12-04 10:22:26,334 - etl.load.load_dimensions - INFO - [OK] Loaded 311 employees to dim_employee
+2025-12-04 10:22:26,334 - etl.load.load_dimensions - INFO - Verifying dimension tables...
+2025-12-04 10:22:26,391 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-04 10:22:26,392 - etl.load.load_dimensions - INFO - [OK] ALL DIMENSIONS LOADED SUCCESSFULLY!
+2025-12-04 10:22:26,392 - etl.load.load_dimensions - INFO - Total time: 0.73 seconds
+2025-12-04 10:22:26,392 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-04 10:22:26,392 - __main__ - INFO - 
+2025-12-04 10:22:26,392 - __main__ - INFO - STEP 5: LOAD FACT TABLES
+2025-12-04 10:22:26,392 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 10:22:26,398 - etl.load.load_facts - INFO - ======================================================================
+2025-12-04 10:22:26,398 - etl.load.load_facts - INFO - STARTING FACT TABLES LOAD PROCESS
+2025-12-04 10:22:26,399 - etl.load.load_facts - INFO - ======================================================================
+2025-12-04 10:22:26,399 - etl.load.load_facts - INFO - Loading fact_sales...
+2025-12-04 10:22:26,495 - etl.load.load_facts - INFO - [OK] Loaded 664 rows to fact_sales
+2025-12-04 10:22:26,495 - etl.load.load_facts - INFO - Loading fact_marketing_response...
+2025-12-04 10:22:26,549 - etl.load.load_facts - ERROR - [ERROR] Error loading fact_marketing_response: (psycopg2.errors.UndefinedColumn) column m.mnt_wines does not exist
+LINE 16:             COALESCE(m.mnt_wines, 0),
+                              ^
+HINT:  Perhaps you meant to reference the column "m.mntwines".
+
+[SQL: 
+        INSERT INTO fact_marketing_response (
+            tanggal_key, customer_key, kampanye_key,
+            recency, mnt_wines, mnt_fruits, mnt_meat_products,
+            mnt_fish_products, mnt_sweet_products, mnt_gold_prods,
+            total_spending, num_deals_purchases, num_web_purchases,
+            num_catalog_purchases, num_store_purchases, num_web_visits_month,
+            accepted_cmp1, accepted_cmp2, accepted_cmp3, accepted_cmp4, accepted_cmp5,
+            response, complain, created_date
+        )
+        SELECT 
+            dt.tanggal_key,
+            c.customer_key,
+            NULL as kampanye_key,
+            m.recency,
+            COALESCE(m.mnt_wines, 0),
+            COALESCE(m.mnt_fruits, 0),
+            COALESCE(m.mnt_meat_products, 0),
+            COALESCE(m.mnt_fish_products, 0),
+            COALESCE(m.mnt_sweet_products, 0),
+            COALESCE(m.mnt_gold_prods, 0),
+            (COALESCE(m.mnt_wines, 0) + COALESCE(m.mnt_fruits, 0) + 
+             COALESCE(m.mnt_meat_products, 0) + COALESCE(m.mnt_fish_products, 0) + 
+             COALESCE(m.mnt_sweet_products, 0) + COALESCE(m.mnt_gold_prods, 0)) as total_spending,
+            m.num_deals_purchases,
+            m.num_web_purchases,
+            m.num_catalog_purchases,
+            m.num_store_purchases,
+            m.num_web_visits_month,
+            m.accepted_cmp1,
+            m.accepted_cmp2,
+            m.accepted_cmp3,
+            m.accepted_cmp4,
+            m.accepted_cmp5,
+            m.response,
+            m.complain,
+            NOW()
+        FROM staging_marketing m
+        INNER JOIN dim_customer c ON m.id = c.customer_id
+        INNER JOIN dim_tanggal dt ON m.dt_customer = dt.tanggal
+        WHERE m.id IS NOT NULL
+        AND m.dt_customer IS NOT NULL
+        ON CONFLICT DO NOTHING;
+        ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-12-04 10:22:26,560 - etl.load.load_facts - ERROR - Traceback (most recent call last):
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column m.mnt_wines does not exist
+LINE 16:             COALESCE(m.mnt_wines, 0),
+                              ^
+HINT:  Perhaps you meant to reference the column "m.mntwines".
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\etl\load\load_facts.py", line 184, in load_fact_marketing_response
+    result = conn.execute(query)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column m.mnt_wines does not exist
+LINE 16:             COALESCE(m.mnt_wines, 0),
+                              ^
+HINT:  Perhaps you meant to reference the column "m.mntwines".
+
+[SQL: 
+        INSERT INTO fact_marketing_response (
+            tanggal_key, customer_key, kampanye_key,
+            recency, mnt_wines, mnt_fruits, mnt_meat_products,
+            mnt_fish_products, mnt_sweet_products, mnt_gold_prods,
+            total_spending, num_deals_purchases, num_web_purchases,
+            num_catalog_purchases, num_store_purchases, num_web_visits_month,
+            accepted_cmp1, accepted_cmp2, accepted_cmp3, accepted_cmp4, accepted_cmp5,
+            response, complain, created_date
+        )
+        SELECT 
+            dt.tanggal_key,
+            c.customer_key,
+            NULL as kampanye_key,
+            m.recency,
+            COALESCE(m.mnt_wines, 0),
+            COALESCE(m.mnt_fruits, 0),
+            COALESCE(m.mnt_meat_products, 0),
+            COALESCE(m.mnt_fish_products, 0),
+            COALESCE(m.mnt_sweet_products, 0),
+            COALESCE(m.mnt_gold_prods, 0),
+            (COALESCE(m.mnt_wines, 0) + COALESCE(m.mnt_fruits, 0) + 
+             COALESCE(m.mnt_meat_products, 0) + COALESCE(m.mnt_fish_products, 0) + 
+             COALESCE(m.mnt_sweet_products, 0) + COALESCE(m.mnt_gold_prods, 0)) as total_spending,
+            m.num_deals_purchases,
+            m.num_web_purchases,
+            m.num_catalog_purchases,
+            m.num_store_purchases,
+            m.num_web_visits_month,
+            m.accepted_cmp1,
+            m.accepted_cmp2,
+            m.accepted_cmp3,
+            m.accepted_cmp4,
+            m.accepted_cmp5,
+            m.response,
+            m.complain,
+            NOW()
+        FROM staging_marketing m
+        INNER JOIN dim_customer c ON m.id = c.customer_id
+        INNER JOIN dim_tanggal dt ON m.dt_customer = dt.tanggal
+        WHERE m.id IS NOT NULL
+        AND m.dt_customer IS NOT NULL
+        ON CONFLICT DO NOTHING;
+        ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2025-12-04 10:22:26,560 - etl.load.load_facts - ERROR - ======================================================================
+2025-12-04 10:22:26,561 - etl.load.load_facts - ERROR - [ERROR] FACT LOAD FAILED: (psycopg2.errors.UndefinedColumn) column m.mnt_wines does not exist
+LINE 16:             COALESCE(m.mnt_wines, 0),
+                              ^
+HINT:  Perhaps you meant to reference the column "m.mntwines".
+
+[SQL: 
+        INSERT INTO fact_marketing_response (
+            tanggal_key, customer_key, kampanye_key,
+            recency, mnt_wines, mnt_fruits, mnt_meat_products,
+            mnt_fish_products, mnt_sweet_products, mnt_gold_prods,
+            total_spending, num_deals_purchases, num_web_purchases,
+            num_catalog_purchases, num_store_purchases, num_web_visits_month,
+            accepted_cmp1, accepted_cmp2, accepted_cmp3, accepted_cmp4, accepted_cmp5,
+            response, complain, created_date
+        )
+        SELECT 
+            dt.tanggal_key,
+            c.customer_key,
+            NULL as kampanye_key,
+            m.recency,
+            COALESCE(m.mnt_wines, 0),
+            COALESCE(m.mnt_fruits, 0),
+            COALESCE(m.mnt_meat_products, 0),
+            COALESCE(m.mnt_fish_products, 0),
+            COALESCE(m.mnt_sweet_products, 0),
+            COALESCE(m.mnt_gold_prods, 0),
+            (COALESCE(m.mnt_wines, 0) + COALESCE(m.mnt_fruits, 0) + 
+             COALESCE(m.mnt_meat_products, 0) + COALESCE(m.mnt_fish_products, 0) + 
+             COALESCE(m.mnt_sweet_products, 0) + COALESCE(m.mnt_gold_prods, 0)) as total_spending,
+            m.num_deals_purchases,
+            m.num_web_purchases,
+            m.num_catalog_purchases,
+            m.num_store_purchases,
+            m.num_web_visits_month,
+            m.accepted_cmp1,
+            m.accepted_cmp2,
+            m.accepted_cmp3,
+            m.accepted_cmp4,
+            m.accepted_cmp5,
+            m.response,
+            m.complain,
+            NOW()
+        FROM staging_marketing m
+        INNER JOIN dim_customer c ON m.id = c.customer_id
+        INNER JOIN dim_tanggal dt ON m.dt_customer = dt.tanggal
+        WHERE m.id IS NOT NULL
+        AND m.dt_customer IS NOT NULL
+        ON CONFLICT DO NOTHING;
+        ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-12-04 10:22:26,561 - etl.load.load_facts - ERROR - ======================================================================
+2025-12-04 10:22:26,562 - etl.load.load_facts - ERROR - Traceback (most recent call last):
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column m.mnt_wines does not exist
+LINE 16:             COALESCE(m.mnt_wines, 0),
+                              ^
+HINT:  Perhaps you meant to reference the column "m.mntwines".
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\etl\load\load_facts.py", line 337, in load_all_facts
+    load_fact_marketing_response()
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\etl\load\load_facts.py", line 184, in load_fact_marketing_response
+    result = conn.execute(query)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column m.mnt_wines does not exist
+LINE 16:             COALESCE(m.mnt_wines, 0),
+                              ^
+HINT:  Perhaps you meant to reference the column "m.mntwines".
+
+[SQL: 
+        INSERT INTO fact_marketing_response (
+            tanggal_key, customer_key, kampanye_key,
+            recency, mnt_wines, mnt_fruits, mnt_meat_products,
+            mnt_fish_products, mnt_sweet_products, mnt_gold_prods,
+            total_spending, num_deals_purchases, num_web_purchases,
+            num_catalog_purchases, num_store_purchases, num_web_visits_month,
+            accepted_cmp1, accepted_cmp2, accepted_cmp3, accepted_cmp4, accepted_cmp5,
+            response, complain, created_date
+        )
+        SELECT 
+            dt.tanggal_key,
+            c.customer_key,
+            NULL as kampanye_key,
+            m.recency,
+            COALESCE(m.mnt_wines, 0),
+            COALESCE(m.mnt_fruits, 0),
+            COALESCE(m.mnt_meat_products, 0),
+            COALESCE(m.mnt_fish_products, 0),
+            COALESCE(m.mnt_sweet_products, 0),
+            COALESCE(m.mnt_gold_prods, 0),
+            (COALESCE(m.mnt_wines, 0) + COALESCE(m.mnt_fruits, 0) + 
+             COALESCE(m.mnt_meat_products, 0) + COALESCE(m.mnt_fish_products, 0) + 
+             COALESCE(m.mnt_sweet_products, 0) + COALESCE(m.mnt_gold_prods, 0)) as total_spending,
+            m.num_deals_purchases,
+            m.num_web_purchases,
+            m.num_catalog_purchases,
+            m.num_store_purchases,
+            m.num_web_visits_month,
+            m.accepted_cmp1,
+            m.accepted_cmp2,
+            m.accepted_cmp3,
+            m.accepted_cmp4,
+            m.accepted_cmp5,
+            m.response,
+            m.complain,
+            NOW()
+        FROM staging_marketing m
+        INNER JOIN dim_customer c ON m.id = c.customer_id
+        INNER JOIN dim_tanggal dt ON m.dt_customer = dt.tanggal
+        WHERE m.id IS NOT NULL
+        AND m.dt_customer IS NOT NULL
+        ON CONFLICT DO NOTHING;
+        ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2025-12-04 10:22:26,564 - __main__ - INFO - 
+2025-12-04 10:22:26,564 - __main__ - INFO - STEP 6: DATA VERIFICATION
+2025-12-04 10:22:26,565 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-04 10:22:26,625 - __main__ - INFO - 
+Data Warehouse Row Counts:
+2025-12-04 10:22:26,626 - __main__ - INFO - 
+               table_name  row_count
+               dim_cabang          6
+             dim_customer       1000
+             dim_employee          0
+              dim_payment          6
+               dim_produk          6
+              dim_tanggal       4748
+fact_employee_performance          0
+  fact_marketing_response          0
+               fact_sales        664
+2025-12-04 10:22:26,627 - __main__ - INFO - 
+2025-12-04 10:22:26,627 - __main__ - INFO - ================================================================================
+2025-12-04 10:22:26,627 - __main__ - INFO - [OK] ETL PIPELINE COMPLETED SUCCESSFULLY!
+2025-12-04 10:22:26,628 - __main__ - INFO - ================================================================================
+2025-12-04 10:22:26,628 - __main__ - INFO - Log file: logs\etl_pipeline_20251204_102221.log
+2025-12-04 10:22:26,628 - __main__ - INFO - Duration: 5.55 seconds
+2025-12-04 10:22:26,628 - __main__ - INFO - Completed at: 2025-12-04 10:22:26
+2025-12-04 10:22:26,628 - __main__ - INFO - ================================================================================
