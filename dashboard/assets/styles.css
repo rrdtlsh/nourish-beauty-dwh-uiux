@@ -1,0 +1,107 @@
+/* Nourish Beauty Dashboard - UI/UX Styles */
+
+/* Color Palette - Based on UI/UX Standards */
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #3b82f6;
+    --background: #f9fafb;
+    --card-bg: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+}
+
+/* Main Header */
+.main-header {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+}
+
+/* Metric Cards */
+.metric-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Headers */
+.section-header {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Info Box */
+.info-box {
+    background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--info-color);
+    margin: 1rem 0;
+}
+
+/* Accessibility - WCAG Compliance */
+.accessible-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    letter-spacing: 0.025em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-header {
+        font-size: 1.75rem;
+    }
+
+    .metric-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Chart Container */
+.chart-container {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
+}
+
+/* Status Indicators */
+.status-excellent {
+    color: #10b981;
+}
+
+.status-good {
+    color: #3b82f6;
+}
+
+.status-warning {
+    color: #f59e0b;
+}
+
+.status-danger {
+    color: #ef4444;
+}
