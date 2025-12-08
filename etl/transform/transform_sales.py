@@ -18,35 +18,6 @@ import numpy as np
 from datetime import datetime
 import logging
 
-logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
-logging.basicConfig(level=logging.INFO, format='%(message)s')
-logger = logging.getLogger(__name__)
-
-
-def clean_numeric_column(series):
-    """
-    Bersihkan kolom numerik dari format Indonesia (titik pemisah ribuan)
-    Contoh: '4.761.904.762' → 4761904762.0
-    """
-    if series.dtype == 'object':  # Jika masih string
-        # Hapus semua titik (pemisah ribuan)
-        series = series.astype(str).str.replace('.', '', regex=False)
-        # Ganti koma dengan titik (desimal)
-        series = series.str.replace(',', '.', regex=False)
-    # Convert ke numeric
-    return pd.to_numeric(series, errors='coerce')
-
-
-"""
-Transform Sales Data - 40 Transformation Rules
-Author: Raudatul Sholehah - 2310817220002
-"""
-
-import pandas as pd
-import numpy as np
-from datetime import datetime
-import logging
-
 # ✅ MATIKAN LOGGING VERBOSE
 logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -59,14 +30,21 @@ def clean_numeric_column(series):
     Contoh: '4.761.904.762' → 4761904762.0
     """
     if series.dtype == 'object':
+        # Hapus semua titik (pemisah ribuan)
         series = series.astype(str).str.replace('.', '', regex=False)
+        # Ganti koma dengan titik (desimal)
         series = series.str.replace(',', '.', regex=False)
+        # Hapus spasi dan karakter aneh
+        series = series.str.strip()
+        series = series.str.replace(' ', '', regex=False)
+    
+    # Convert ke numeric
     return pd.to_numeric(series, errors='coerce')
 
 
 def transform_sales_data(df):
     """
-    Apply 40 transformation rules to sales data
+    Apply 40 transformation rules to sales data with USD to IDR conversion
     """
     logger.info("Applying 40 transformation rules to sales data...")
     
@@ -74,9 +52,23 @@ def transform_sales_data(df):
     logger.info(f"   Initial row count: {initial_count}")
     
     # ========================================
-    # RULE 0: Pre-Cleaning Format Indonesia
+    # RULE 0: Pre-Cleaning Format Indonesia & Currency Conversion
     # ========================================
-    logger.info("RULE 0: Pre-cleaning Indonesian number format...")
+    logger.info("RULE 0: Pre-cleaning Indonesian number format & USD to IDR conversion...")
+    
+    # ✅ CEK: Apakah data sudah dalam IDR atau masih USD?
+    sample_value = df['total_penjualan_sebelum_pajak'].iloc[0] if len(df) > 0 else 0
+    
+    # Jika rata-rata transaksi < 10,000, berarti masih USD
+    avg_transaction = df['total_penjualan_sebelum_pajak'].mean()
+    is_in_usd = avg_transaction < 10000  # Threshold: jika < 10K berarti USD
+    
+    if is_in_usd:
+        logger.info(f"   ✓ Detected USD format (avg: ${avg_transaction:.2f})")
+        USD_TO_IDR = 15000
+    else:
+        logger.info(f"   ✓ Already in IDR format (avg: Rp {avg_transaction:,.0f})")
+        USD_TO_IDR = 1  # Jangan konversi lagi!
     
     numeric_cols = [
         'harga_satuan', 
@@ -88,14 +80,32 @@ def transform_sales_data(df):
         'rating'
     ]
     
+    currency_cols = [
+        'harga_satuan',
+        'pajak_5_persen', 
+        'total_penjualan_sebelum_pajak',
+        'pendapatan_kotor'
+    ]
+    
     for col in numeric_cols:
         if col in df.columns:
+            original_sample = df[col].iloc[0] if len(df) > 0 else None
             df[col] = clean_numeric_column(df[col])
+            
+            # ✅ KONVERSI KE RUPIAH hanya jika masih USD
+            if col in currency_cols and USD_TO_IDR > 1:
+                df[col] = df[col] * USD_TO_IDR
+                cleaned_sample = df[col].iloc[0] if len(df) > 0 else None
+                logger.info(f"   {col}: {original_sample} → Rp {cleaned_sample:,.0f}")
+            elif col in currency_cols:
+                logger.info(f"   {col}: Already in IDR (Rp {df[col].iloc[0]:,.0f})")
     
-    # ✅ FIX: persentase_gross_margin terlalu besar, bagi dengan 1 miliar
+    # ✅ FIX: persentase_gross_margin adalah PERSENTASE, bukan currency
     if 'persentase_gross_margin' in df.columns:
-        df['persentase_gross_margin'] = df['persentase_gross_margin'] / 1_000_000_000
-        logger.info(f"   Fixed persentase_gross_margin scale")
+        sample_val = df['persentase_gross_margin'].iloc[0] if len(df) > 0 else None
+        logger.info(f"   persentase_gross_margin: {sample_val:.2f}% (kept as percentage)")
+    
+    # ... (SISANYA TETAP SAMA, COPY DARI CODE SEBELUMNYA)
     
     # ========================================
     # RULE 1-5: Data Type Conversion
@@ -189,9 +199,10 @@ def transform_sales_data(df):
     # ========================================
     logger.info("RULE 31-35: Business Logic & Categorization")
     
+    # ✅ FIX: Update bins untuk nilai IDR (bukan USD)
     df['sales_category'] = pd.cut(
         df['total_penjualan'], 
-        bins=[0, 100, 500, 1000, float('inf')],
+        bins=[0, 1_500_000, 7_500_000, 15_000_000, float('inf')],  # IDR ranges
         labels=['Low', 'Medium', 'High', 'Very High']
     )
     
@@ -214,6 +225,7 @@ def transform_sales_data(df):
     df = df.drop_duplicates(subset=['id_invoice'], keep='first')
     df = df.reset_index(drop=True)
     
+    # ✅ Outlier removal dengan IQR
     Q1 = df['total_penjualan'].quantile(0.25)
     Q3 = df['total_penjualan'].quantile(0.75)
     IQR = Q3 - Q1
@@ -231,6 +243,14 @@ def transform_sales_data(df):
     logger.info(f"   Final rows: {final_count}")
     logger.info(f"   Removed: {removed_count} ({100-retention_rate:.1f}%)")
     logger.info(f"   Retention rate: {retention_rate:.1f}%")
+    logger.info(f"   Currency converted: USD → IDR (rate: {USD_TO_IDR:,})")
+    
+    # ✅ SUMMARY STATISTICS
+    logger.info(f"\n   SUMMARY STATISTICS (in IDR):")
+    logger.info(f"   - Total Revenue: Rp {df['total_penjualan_sebelum_pajak'].sum():,.0f}")
+    logger.info(f"   - Avg Transaction: Rp {df['total_penjualan_sebelum_pajak'].mean():,.0f}")
+    logger.info(f"   - Min Transaction: Rp {df['total_penjualan_sebelum_pajak'].min():,.0f}")
+    logger.info(f"   - Max Transaction: Rp {df['total_penjualan_sebelum_pajak'].max():,.0f}")
     
     return df
 
@@ -244,9 +264,12 @@ def get_transformation_summary(df_before, df_after):
         'retention_rate': (len(df_after) / len(df_before) * 100) if len(df_before) > 0 else 0,
         'new_columns': [col for col in df_after.columns if col not in df_before.columns],
         'null_counts_before': df_before.isnull().sum().sum(),
-        'null_counts_after': df_after.isnull().sum().sum()
+        'null_counts_after': df_after.isnull().sum().sum(),
+        'total_revenue_idr': df_after['total_penjualan_sebelum_pajak'].sum(),
+        'avg_transaction_idr': df_after['total_penjualan_sebelum_pajak'].mean()
     }
     return summary
+
 
 if __name__ == "__main__":
     # Test transformation
@@ -256,27 +279,46 @@ if __name__ == "__main__":
     
     from etl.extract.extract_sales import extract_sales_data
     
-    logger.info("=" * 70)
-    logger.info("TESTING TRANSFORMATION RULES")
-    logger.info("=" * 70)
+    logger.info("=" * 80)
+    logger.info("TESTING TRANSFORMATION RULES WITH USD TO IDR CONVERSION")
+    logger.info("=" * 80)
     
     df_raw = extract_sales_data()
+    
+    print(f"\n{'='*80}")
+    print(f"RAW DATA PREVIEW (First 3 rows):")
+    print(f"{'='*80}")
+    print(df_raw[['harga_satuan', 'jumlah', 'total_penjualan_sebelum_pajak']].head(3))
+    
     df_transformed = transform_sales_data(df_raw)
+    
+    print(f"\n{'='*80}")
+    print(f"TRANSFORMED DATA PREVIEW (First 3 rows):")
+    print(f"{'='*80}")
+    print(df_transformed[['harga_satuan', 'jumlah', 'total_penjualan_sebelum_pajak']].head(3))
     
     summary = get_transformation_summary(df_raw, df_transformed)
     
-    print(f"\nTransformation Summary:")
-    print(f"   Initial rows: {summary['initial_rows']}")
-    print(f"   Final rows: {summary['final_rows']}")
-    print(f"   Rows removed: {summary['rows_removed']}")
+    print(f"\n{'='*80}")
+    print(f"TRANSFORMATION SUMMARY:")
+    print(f"{'='*80}")
+    print(f"   Initial rows: {summary['initial_rows']:,}")
+    print(f"   Final rows: {summary['final_rows']:,}")
+    print(f"   Rows removed: {summary['rows_removed']:,}")
     print(f"   Retention rate: {summary['retention_rate']:.2f}%")
     print(f"   New columns added: {len(summary['new_columns'])}")
-    print(f"   Null values before: {summary['null_counts_before']}")
-    print(f"   Null values after: {summary['null_counts_after']}")
+    print(f"   Null values before: {summary['null_counts_before']:,}")
+    print(f"   Null values after: {summary['null_counts_after']:,}")
+    print(f"\n   REVENUE (IDR):")
+    print(f"   - Total Revenue: Rp {summary['total_revenue_idr']:,.0f}")
+    print(f"   - Avg Transaction: Rp {summary['avg_transaction_idr']:,.0f}")
     
-    print(f"\nNew Columns:")
+    print(f"\n{'='*80}")
+    print(f"NEW COLUMNS CREATED:")
+    print(f"{'='*80}")
     for col in summary['new_columns']:
         print(f"   - {col}")
     
-    print(f"\nTransformed Data Preview:")
-    print(df_transformed.head())
+    print(f"\n{'='*80}")
+    print(f"[OK] TRANSFORMATION TEST COMPLETED!")
+    print(f"{'='*80}")

@@ -1,0 +1,318 @@
+2025-12-07 21:33:07,021 - __main__ - INFO - ================================================================================
+2025-12-07 21:33:07,021 - __main__ - INFO - NOURISH BEAUTY DATA WAREHOUSE - ETL PIPELINE
+2025-12-07 21:33:07,021 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-07 21:33:07,025 - __main__ - INFO -    Date: 2025-12-07 21:33:07
+2025-12-07 21:33:07,025 - __main__ - INFO - ================================================================================
+2025-12-07 21:33:07,025 - __main__ - INFO - 
+2025-12-07 21:33:07,025 - __main__ - INFO - STEP 1: Testing Database Connection
+2025-12-07 21:33:07,025 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-07 21:33:07,486 - __main__ - INFO - 
+2025-12-07 21:33:07,486 - __main__ - INFO - STEP 2: EXTRACT PHASE
+2025-12-07 21:33:07,486 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-07 21:33:07,916 - __main__ - INFO - Extracting Sales Data...
+2025-12-07 21:33:07,916 - etl.extract.extract_sales - INFO - Starting sales data extraction...
+2025-12-07 21:33:07,916 - etl.extract.extract_sales - INFO - Reading file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\raw\SuperMarket-Analysis-penjualan.csv
+2025-12-07 21:33:07,922 - etl.extract.extract_sales - INFO - [OK] Loaded 1000 rows from SuperMarket-Analysis-penjualan.csv
+2025-12-07 21:33:07,922 - etl.extract.extract_sales - INFO - Applying transformations...
+2025-12-07 21:33:07,922 - etl.transform.transform_sales - INFO - Applying 40 transformation rules to sales data...
+2025-12-07 21:33:07,922 - etl.transform.transform_sales - INFO -    Initial row count: 1000
+2025-12-07 21:33:07,922 - etl.transform.transform_sales - INFO - RULE 0: Pre-cleaning Indonesian number format...
+2025-12-07 21:33:07,927 - etl.transform.transform_sales - INFO -    Fixed persentase_gross_margin scale
+2025-12-07 21:33:07,927 - etl.transform.transform_sales - INFO - RULE 1-5: Data Type Conversion
+2025-12-07 21:33:07,932 - etl.transform.transform_sales - INFO - RULE 6-10: Handle Missing Values
+2025-12-07 21:33:07,935 - etl.transform.transform_sales - INFO - RULE 11-15: Data Cleaning
+2025-12-07 21:33:07,940 - etl.transform.transform_sales - INFO - RULE 16-20: Standardization
+2025-12-07 21:33:07,945 - etl.transform.transform_sales - INFO - RULE 21-25: Calculate Derived Fields
+2025-12-07 21:33:07,950 - etl.transform.transform_sales - INFO - RULE 26-30: Validation & Quality Checks
+2025-12-07 21:33:07,955 - etl.transform.transform_sales - INFO - RULE 31-35: Business Logic & Categorization
+2025-12-07 21:33:07,965 - etl.transform.transform_sales - INFO - RULE 36-40: Final Cleaning & Outlier Removal
+2025-12-07 21:33:07,972 - etl.transform.transform_sales - INFO - [OK] Transformation complete!
+2025-12-07 21:33:07,973 - etl.transform.transform_sales - INFO -    Initial rows: 1000
+2025-12-07 21:33:07,973 - etl.transform.transform_sales - INFO -    Final rows: 991
+2025-12-07 21:33:07,973 - etl.transform.transform_sales - INFO -    Removed: 9 (0.9%)
+2025-12-07 21:33:07,973 - etl.transform.transform_sales - INFO -    Retention rate: 99.1%
+2025-12-07 21:33:07,994 - etl.extract.extract_sales - INFO - [OK] Saved to staging file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\staging\staging_sales.csv
+2025-12-07 21:33:07,994 - etl.extract.extract_sales - INFO - [OK] Extraction complete: 991 records ready
+2025-12-07 21:33:07,994 - etl.extract.extract_sales - INFO - Loading sales data to staging_sales table...
+2025-12-07 21:33:07,994 - etl.extract.extract_sales - INFO -    Records to load: 991
+2025-12-07 21:33:07,997 - etl.extract.extract_sales - INFO -    Truncating staging_sales table...
+2025-12-07 21:33:08,061 - etl.extract.extract_sales - INFO -    Loading data in 2 chunks of 500 rows...
+2025-12-07 21:33:08,192 - etl.extract.extract_sales - INFO -    Chunk 1/2 loaded (500 rows)
+2025-12-07 21:33:08,346 - etl.extract.extract_sales - INFO -    Chunk 2/2 loaded (491 rows)
+2025-12-07 21:33:08,346 - etl.extract.extract_sales - INFO - [OK] Successfully loaded 991 rows to staging_sales
+2025-12-07 21:33:08,349 - etl.extract.extract_sales - INFO - [OK] Verified staging_sales row count: 991
+2025-12-07 21:33:08,349 - __main__ - INFO - Extracting HR Data...
+2025-12-07 21:33:08,349 - etl.extract.extract_hr - INFO - Starting HR data extraction...
+2025-12-07 21:33:08,349 - etl.extract.extract_hr - INFO - Reading file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\raw\HRDataset.csv
+2025-12-07 21:33:08,357 - etl.extract.extract_hr - INFO - [OK] Loaded 311 rows from HRDataset.csv
+2025-12-07 21:33:08,357 - etl.extract.extract_hr - INFO -    Columns: 36
+2025-12-07 21:33:08,358 - etl.extract.extract_hr - INFO -    Converting date column: dob
+2025-12-07 21:33:08,362 - etl.extract.extract_hr - INFO -    Converting date column: dateofhire
+2025-12-07 21:33:08,364 - etl.extract.extract_hr - INFO -    Converting date column: dateoftermination
+2025-12-07 21:33:08,367 - etl.extract.extract_hr - INFO -    Converting date column: lastperformancereview_date
+2025-12-07 21:33:08,387 - etl.extract.extract_hr - INFO - [OK] Saved to staging file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\staging\staging_hr.csv
+2025-12-07 21:33:08,387 - etl.extract.extract_hr - INFO - [OK] Extraction complete: 311 records ready
+2025-12-07 21:33:08,387 - etl.extract.extract_hr - INFO - Loading HR data to staging_hr table...
+2025-12-07 21:33:08,387 - etl.extract.extract_hr - INFO -    Records to load: 311
+2025-12-07 21:33:08,393 - etl.extract.extract_hr - INFO -    Truncating staging_hr table...
+2025-12-07 21:33:08,544 - etl.extract.extract_hr - INFO -    Loading rows individually...
+2025-12-07 21:33:08,991 - etl.extract.extract_hr - INFO -    Progress: 50/311 rows loaded
+2025-12-07 21:33:09,436 - etl.extract.extract_hr - INFO -    Progress: 100/311 rows loaded
+2025-12-07 21:33:09,872 - etl.extract.extract_hr - INFO -    Progress: 150/311 rows loaded
+2025-12-07 21:33:10,337 - etl.extract.extract_hr - INFO -    Progress: 200/311 rows loaded
+2025-12-07 21:33:10,778 - etl.extract.extract_hr - INFO -    Progress: 250/311 rows loaded
+2025-12-07 21:33:11,216 - etl.extract.extract_hr - INFO -    Progress: 300/311 rows loaded
+2025-12-07 21:33:11,334 - etl.extract.extract_hr - INFO -    Progress: 311/311 rows loaded
+2025-12-07 21:33:11,334 - etl.extract.extract_hr - INFO - [OK] Successfully loaded 311 rows
+2025-12-07 21:33:11,337 - etl.extract.extract_hr - INFO - [OK] Verified row count: 311
+2025-12-07 21:33:11,337 - __main__ - INFO - Extracting Marketing Data...
+2025-12-07 21:33:11,337 - etl.extract.extract_marketing - INFO - Starting marketing data extraction...
+2025-12-07 21:33:11,337 - etl.extract.extract_marketing - INFO - Reading file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\raw\marketing_campaign.csv
+2025-12-07 21:33:11,338 - etl.extract.extract_marketing - INFO -    Trying delimiter: '	'
+2025-12-07 21:33:11,341 - etl.extract.extract_marketing - WARNING -    Failed: only 1 columns detected
+2025-12-07 21:33:11,342 - etl.extract.extract_marketing - INFO -    Trying delimiter: ';'
+2025-12-07 21:33:11,363 - etl.extract.extract_marketing - INFO -    [OK] Successfully read with delimiter ';'
+2025-12-07 21:33:11,364 - etl.extract.extract_marketing - INFO -    Columns detected: 29
+2025-12-07 21:33:11,364 - etl.extract.extract_marketing - INFO - [OK] Loaded 1000 rows from marketing_campaign.csv
+2025-12-07 21:33:11,365 - etl.extract.extract_marketing - INFO -    Columns: ['ID', 'Year_Birth', 'Education', 'Marital_Status', 'Income']... (29 total)
+2025-12-07 21:33:11,366 - etl.extract.extract_marketing - INFO -    Converting date column: dt_customer
+2025-12-07 21:33:11,392 - etl.extract.extract_marketing - INFO - [OK] Saved to staging file: D:\FILE SM 5\nourish-beauty-dwh-uiux\data\staging\staging_marketing.csv
+2025-12-07 21:33:11,393 - etl.extract.extract_marketing - INFO - [OK] Extraction complete: 1000 records ready
+2025-12-07 21:33:11,393 - etl.extract.extract_marketing - INFO - Loading marketing data to staging_marketing table...
+2025-12-07 21:33:11,393 - etl.extract.extract_marketing - INFO -    Records to load: 1000
+2025-12-07 21:33:11,394 - etl.extract.extract_marketing - INFO -    Dropping and recreating staging_marketing table...
+2025-12-07 21:33:11,544 - etl.extract.extract_marketing - INFO -    Loading data with auto-schema detection...
+2025-12-07 21:33:11,957 - etl.extract.extract_marketing - INFO - [OK] Successfully loaded 1000 rows
+2025-12-07 21:33:11,959 - etl.extract.extract_marketing - INFO - [OK] Verified row count: 1000
+2025-12-07 21:33:11,959 - __main__ - INFO - [OK] Extract phase completed!
+2025-12-07 21:33:11,959 - __main__ - INFO - 
+2025-12-07 21:33:11,959 - __main__ - INFO - STEP 3: TRANSFORM PHASE
+2025-12-07 21:33:11,959 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-07 21:33:11,959 - __main__ - INFO - Transformation rules will be applied during load phase
+2025-12-07 21:33:11,959 - __main__ - INFO - [OK] 40 transformation rules ready
+2025-12-07 21:33:11,959 - __main__ - INFO - 
+2025-12-07 21:33:11,959 - __main__ - INFO - STEP 4: LOAD DIMENSIONS
+2025-12-07 21:33:11,959 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-07 21:33:11,963 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-07 21:33:11,963 - etl.load.load_dimensions - INFO - STARTING DIMENSION LOAD PROCESS
+2025-12-07 21:33:11,964 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-07 21:33:11,964 - etl.load.load_dimensions - INFO - Loading dim_produk...
+2025-12-07 21:33:12,183 - etl.load.load_dimensions - INFO - [OK] Loaded 6 products to dim_produk
+2025-12-07 21:33:12,183 - etl.load.load_dimensions - INFO - Loading dim_customer...
+2025-12-07 21:33:12,251 - etl.load.load_dimensions - INFO -    Truncated dim_customer table
+2025-12-07 21:33:12,302 - etl.load.load_dimensions - INFO -    Loaded chunk 1: 50 rows (Total: 50/1000)
+2025-12-07 21:33:12,320 - etl.load.load_dimensions - INFO -    Loaded chunk 2: 50 rows (Total: 100/1000)
+2025-12-07 21:33:12,337 - etl.load.load_dimensions - INFO -    Loaded chunk 3: 50 rows (Total: 150/1000)
+2025-12-07 21:33:12,356 - etl.load.load_dimensions - INFO -    Loaded chunk 4: 50 rows (Total: 200/1000)
+2025-12-07 21:33:12,370 - etl.load.load_dimensions - INFO -    Loaded chunk 5: 50 rows (Total: 250/1000)
+2025-12-07 21:33:12,390 - etl.load.load_dimensions - INFO -    Loaded chunk 6: 50 rows (Total: 300/1000)
+2025-12-07 21:33:12,410 - etl.load.load_dimensions - INFO -    Loaded chunk 7: 50 rows (Total: 350/1000)
+2025-12-07 21:33:12,426 - etl.load.load_dimensions - INFO -    Loaded chunk 8: 50 rows (Total: 400/1000)
+2025-12-07 21:33:12,443 - etl.load.load_dimensions - INFO -    Loaded chunk 9: 50 rows (Total: 450/1000)
+2025-12-07 21:33:12,464 - etl.load.load_dimensions - INFO -    Loaded chunk 10: 50 rows (Total: 500/1000)
+2025-12-07 21:33:12,491 - etl.load.load_dimensions - INFO -    Loaded chunk 11: 50 rows (Total: 550/1000)
+2025-12-07 21:33:12,512 - etl.load.load_dimensions - INFO -    Loaded chunk 12: 50 rows (Total: 600/1000)
+2025-12-07 21:33:12,533 - etl.load.load_dimensions - INFO -    Loaded chunk 13: 50 rows (Total: 650/1000)
+2025-12-07 21:33:12,555 - etl.load.load_dimensions - INFO -    Loaded chunk 14: 50 rows (Total: 700/1000)
+2025-12-07 21:33:12,578 - etl.load.load_dimensions - INFO -    Loaded chunk 15: 50 rows (Total: 750/1000)
+2025-12-07 21:33:12,596 - etl.load.load_dimensions - INFO -    Loaded chunk 16: 50 rows (Total: 800/1000)
+2025-12-07 21:33:12,615 - etl.load.load_dimensions - INFO -    Loaded chunk 17: 50 rows (Total: 850/1000)
+2025-12-07 21:33:12,631 - etl.load.load_dimensions - INFO -    Loaded chunk 18: 50 rows (Total: 900/1000)
+2025-12-07 21:33:12,644 - etl.load.load_dimensions - INFO -    Loaded chunk 19: 50 rows (Total: 950/1000)
+2025-12-07 21:33:12,658 - etl.load.load_dimensions - INFO -    Loaded chunk 20: 50 rows (Total: 1000/1000)
+2025-12-07 21:33:12,664 - etl.load.load_dimensions - INFO - [OK] Successfully loaded 1000 customers to dim_customer
+2025-12-07 21:33:12,665 - etl.load.load_dimensions - INFO - Loading dim_employee...
+2025-12-07 21:33:12,719 - etl.load.load_dimensions - INFO -    Truncated dim_employee table
+2025-12-07 21:33:12,753 - etl.load.load_dimensions - INFO -    Loaded chunk 1: 50 rows (Total: 50/311)
+2025-12-07 21:33:12,772 - etl.load.load_dimensions - INFO -    Loaded chunk 2: 50 rows (Total: 100/311)
+2025-12-07 21:33:12,794 - etl.load.load_dimensions - INFO -    Loaded chunk 3: 50 rows (Total: 150/311)
+2025-12-07 21:33:12,812 - etl.load.load_dimensions - INFO -    Loaded chunk 4: 50 rows (Total: 200/311)
+2025-12-07 21:33:12,834 - etl.load.load_dimensions - INFO -    Loaded chunk 5: 50 rows (Total: 250/311)
+2025-12-07 21:33:12,854 - etl.load.load_dimensions - INFO -    Loaded chunk 6: 50 rows (Total: 300/311)
+2025-12-07 21:33:12,862 - etl.load.load_dimensions - INFO -    Loaded chunk 7: 11 rows (Total: 311/311)
+2025-12-07 21:33:12,863 - etl.load.load_dimensions - INFO - [OK] Successfully loaded 311 employees to dim_employee
+2025-12-07 21:33:12,864 - etl.load.load_dimensions - INFO - Verifying dimension tables...
+2025-12-07 21:33:12,924 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-07 21:33:12,924 - etl.load.load_dimensions - INFO - [OK] ALL DIMENSIONS LOADED SUCCESSFULLY!
+2025-12-07 21:33:12,924 - etl.load.load_dimensions - INFO - Total time: 0.96 seconds
+2025-12-07 21:33:12,924 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-07 21:33:12,928 - __main__ - INFO - 
+2025-12-07 21:33:12,928 - __main__ - INFO - STEP 5: LOAD FACT TABLES
+2025-12-07 21:33:12,928 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-07 21:33:12,929 - etl.load.load_facts - INFO - ======================================================================
+2025-12-07 21:33:12,929 - etl.load.load_facts - INFO - STARTING FACT TABLES LOAD PROCESS
+2025-12-07 21:33:12,929 - etl.load.load_facts - INFO - ======================================================================
+2025-12-07 21:33:12,929 - etl.load.load_facts - INFO - Loading fact_sales...
+2025-12-07 21:33:13,035 - etl.load.load_facts - INFO - [OK] Loaded 664 rows to fact_sales
+2025-12-07 21:33:13,035 - etl.load.load_facts - INFO - Loading fact_marketing_response...
+2025-12-07 21:33:13,185 - etl.load.load_facts - INFO -    Debug - Marketing: 1000 rows, dates: 2012-08-01 to 2014-06-29
+2025-12-07 21:33:13,185 - etl.load.load_facts - INFO -    Debug - dim_tanggal: 7305 dates, range: 2012-01-01 to 2031-12-31
+2025-12-07 21:33:13,185 - etl.load.load_facts - INFO -    Debug - Matching rows after JOIN: 1000
+2025-12-07 21:33:13,221 - etl.load.load_facts - INFO - [OK] Loaded 1000 rows to fact_marketing_response
+2025-12-07 21:33:13,221 - etl.load.load_facts - INFO - Loading fact_employee_performance...
+2025-12-07 21:33:13,283 - etl.load.load_facts - INFO - [OK] Loaded 306 rows to fact_employee_performance
+2025-12-07 21:33:13,284 - etl.load.load_facts - INFO - Verifying fact tables...
+2025-12-07 21:33:13,436 - etl.load.load_facts - INFO - ======================================================================
+2025-12-07 21:33:13,436 - etl.load.load_facts - INFO - [OK] ALL FACT TABLES LOADED SUCCESSFULLY!
+2025-12-07 21:33:13,436 - etl.load.load_facts - INFO - Total time: 0.51 seconds
+2025-12-07 21:33:13,442 - etl.load.load_facts - INFO - ======================================================================
+2025-12-07 21:33:13,442 - __main__ - INFO - 
+2025-12-07 21:33:13,442 - __main__ - INFO - STEP 6: EXPORT TO DATA LAKE
+2025-12-07 21:33:13,442 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-07 21:33:13,442 - __main__ - INFO - Bronze Layer: Raw files already in data/lake/raw/
+2025-12-07 21:33:13,442 - __main__ - INFO - Exporting to Silver Layer (Processed)...
+2025-12-07 21:33:13,444 - etl.export_to_silver_layer - INFO -   → cleaned_sales.parquet
+2025-12-07 21:33:13,513 - etl.export_to_silver_layer - INFO -      Exported 991 rows
+2025-12-07 21:33:13,513 - etl.export_to_silver_layer - INFO -   → cleaned_hr.parquet
+2025-12-07 21:33:13,536 - etl.export_to_silver_layer - INFO -      Exported 311 rows
+2025-12-07 21:33:13,537 - etl.export_to_silver_layer - INFO -   → cleaned_marketing.parquet
+2025-12-07 21:33:13,558 - etl.export_to_silver_layer - INFO -      Exported 1000 rows
+2025-12-07 21:33:13,559 - etl.export_to_silver_layer - INFO - ✅ Silver layer: 3 files created in data\lake\processed
+2025-12-07 21:33:13,559 - __main__ - INFO - ✅ Silver layer export completed
+2025-12-07 21:33:13,560 - __main__ - INFO - Exporting to Gold Layer (Curated)...
+2025-12-07 21:33:13,575 - etl.export_to_gold_layer - INFO -   → sales_metrics_daily.parquet
+2025-12-07 21:33:13,629 - etl.export_to_gold_layer - INFO -      Exported 177 rows
+2025-12-07 21:33:13,629 - etl.export_to_gold_layer - INFO -   → product_performance.parquet
+2025-12-07 21:33:13,629 - etl.export_to_gold_layer - ERROR - Failed to export Gold layer: (psycopg2.errors.UndefinedColumn) column dp.product_key does not exist
+LINE 13:             JOIN dim_produk dp ON fs.produk_key = dp.product...
+                                                           ^
+HINT:  Perhaps you meant to reference the column "dp.produk_key".
+
+[SQL: 
+            SELECT 
+                dp.product_line,
+                dp.category,
+                COUNT(DISTINCT fs.id_invoice) as transaction_count,
+                SUM(fs.jumlah) as total_quantity_sold,
+                SUM(fs.total_penjualan_sebelum_pajak) as total_revenue,
+                SUM(fs.pendapatan_kotor) as total_profit,
+                AVG(fs.harga_satuan) as avg_unit_price,
+                AVG(fs.rating) as avg_rating,
+                AVG(fs.persentase_gross_margin) as avg_margin_pct
+            FROM fact_sales fs
+            JOIN dim_produk dp ON fs.produk_key = dp.product_key
+            GROUP BY dp.product_line, dp.category
+            ORDER BY total_revenue DESC
+        ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-12-07 21:33:13,629 - etl.export_to_gold_layer - ERROR - Traceback (most recent call last):
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column dp.product_key does not exist
+LINE 13:             JOIN dim_produk dp ON fs.produk_key = dp.product...
+                                                           ^
+HINT:  Perhaps you meant to reference the column "dp.produk_key".
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\FILE SM 5\nourish-beauty-dwh-uiux\etl\export_to_gold_layer.py", line 71, in export_to_gold
+    df = pd.read_sql(query, conn)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\sql.py", line 682, in read_sql
+    return pandas_sql.read_query(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\sql.py", line 1776, in read_query
+    result = self.execute(sql, params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\io\sql.py", line 1600, in execute
+    return self.con.execute(sql, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column dp.product_key does not exist
+LINE 13:             JOIN dim_produk dp ON fs.produk_key = dp.product...
+                                                           ^
+HINT:  Perhaps you meant to reference the column "dp.produk_key".
+
+[SQL: 
+            SELECT 
+                dp.product_line,
+                dp.category,
+                COUNT(DISTINCT fs.id_invoice) as transaction_count,
+                SUM(fs.jumlah) as total_quantity_sold,
+                SUM(fs.total_penjualan_sebelum_pajak) as total_revenue,
+                SUM(fs.pendapatan_kotor) as total_profit,
+                AVG(fs.harga_satuan) as avg_unit_price,
+                AVG(fs.rating) as avg_rating,
+                AVG(fs.persentase_gross_margin) as avg_margin_pct
+            FROM fact_sales fs
+            JOIN dim_produk dp ON fs.produk_key = dp.product_key
+            GROUP BY dp.product_line, dp.category
+            ORDER BY total_revenue DESC
+        ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2025-12-07 21:33:13,629 - __main__ - WARNING - [WARN] Data Lake export failed: (psycopg2.errors.UndefinedColumn) column dp.product_key does not exist
+LINE 13:             JOIN dim_produk dp ON fs.produk_key = dp.product...
+                                                           ^
+HINT:  Perhaps you meant to reference the column "dp.produk_key".
+
+[SQL: 
+            SELECT 
+                dp.product_line,
+                dp.category,
+                COUNT(DISTINCT fs.id_invoice) as transaction_count,
+                SUM(fs.jumlah) as total_quantity_sold,
+                SUM(fs.total_penjualan_sebelum_pajak) as total_revenue,
+                SUM(fs.pendapatan_kotor) as total_profit,
+                AVG(fs.harga_satuan) as avg_unit_price,
+                AVG(fs.rating) as avg_rating,
+                AVG(fs.persentase_gross_margin) as avg_margin_pct
+            FROM fact_sales fs
+            JOIN dim_produk dp ON fs.produk_key = dp.product_key
+            GROUP BY dp.product_line, dp.category
+            ORDER BY total_revenue DESC
+        ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-12-07 21:33:13,641 - __main__ - WARNING -        Main DW pipeline successful. Lake export is optional.
+2025-12-07 21:33:13,641 - __main__ - INFO - 
+2025-12-07 21:33:13,641 - __main__ - INFO - STEP 7: DATA VERIFICATION
+2025-12-07 21:33:13,641 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-07 21:33:13,693 - __main__ - INFO - 
+Data Warehouse Row Counts:
+2025-12-07 21:33:13,693 - __main__ - INFO - 
+               table_name  row_count
+               dim_cabang          6
+             dim_customer       1000
+             dim_employee        311
+              dim_payment          6
+               dim_produk          6
+              dim_tanggal       7305
+fact_employee_performance        306
+  fact_marketing_response       1000
+               fact_sales        664
+2025-12-07 21:33:13,693 - __main__ - INFO - 
+Data Lake Status:
+2025-12-07 21:33:13,693 - __main__ - INFO -   Bronze Layer: 3 files
+2025-12-07 21:33:13,693 - __main__ - INFO -   Silver Layer: 3 files
+2025-12-07 21:33:13,693 - __main__ - INFO -   Gold Layer: 1 files
+2025-12-07 21:33:13,693 - __main__ - INFO - 
+2025-12-07 21:33:13,693 - __main__ - INFO - ================================================================================
+2025-12-07 21:33:13,693 - __main__ - INFO - [OK] ETL PIPELINE COMPLETED SUCCESSFULLY!
+2025-12-07 21:33:13,693 - __main__ - INFO - ================================================================================
+2025-12-07 21:33:13,693 - __main__ - INFO - Log file: logs\etl_pipeline_20251207_213307.log
+2025-12-07 21:33:13,693 - __main__ - INFO - Duration: 6.67 seconds
+2025-12-07 21:33:13,693 - __main__ - INFO - Completed at: 2025-12-07 21:33:13
+2025-12-07 21:33:13,693 - __main__ - INFO - ================================================================================

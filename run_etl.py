@@ -7,6 +7,7 @@ Run this script to execute complete ETL process:
 1. Extract data from CSV files
 2. Transform data (40 transformation rules)
 3. Load to Data Warehouse
+4. Export to Data Lake (Bronze, Silver, Gold layers)
 
 Usage: python run_etl.py
 """
@@ -36,25 +37,22 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(log_file, encoding='utf-8', errors='replace'),  # ✅ errors='replace'
+        logging.FileHandler(log_file, encoding='utf-8', errors='replace'),
         logging.StreamHandler(sys.stdout)
     ]
 )
 
 logger = logging.getLogger(__name__)
 
-
 def print_separator(char="=", width=80):
     """Print separator line"""
     logger.info(char * width)
-
 
 def print_step_header(step_num, title):
     """Print step header"""
     logger.info("")
     logger.info(f"STEP {step_num}: {title}")
     logger.info("-" * 80)
-
 
 def run_etl_pipeline():
     """Execute complete ETL pipeline"""
@@ -112,8 +110,36 @@ def run_etl_pipeline():
         from etl.load.load_facts import load_all_facts
         load_all_facts()
         
-        # STEP 6: Verification
-        print_step_header(6, "DATA VERIFICATION")
+        # ✅ STEP 6: Export to Data Lake (NEW)
+        print_step_header(6, "EXPORT TO DATA LAKE")
+        
+        try:
+            # 6.1: Bronze Layer (already done during extract)
+            logger.info("Bronze Layer: Raw files already in data/lake/raw/")
+            
+            # 6.2: Silver Layer (Processed/Cleaned data)
+            logger.info("Exporting to Silver Layer (Processed)...")
+            from etl.export_to_silver_layer import export_to_silver
+            export_to_silver()
+            logger.info("✅ Silver layer export completed")
+            
+            # 6.3: Gold Layer (Curated/Aggregated data)
+            logger.info("Exporting to Gold Layer (Curated)...")
+            from etl.export_to_gold_layer import export_to_gold
+            export_to_gold()
+            logger.info("✅ Gold layer export completed")
+            
+            logger.info("[OK] Data Lake export phase completed!")
+            
+        except ImportError as ie:
+            logger.warning(f"[SKIP] Data Lake export modules not found: {ie}")
+            logger.warning("       This is optional. Continue with main pipeline.")
+        except Exception as e:
+            logger.warning(f"[WARN] Data Lake export failed: {e}")
+            logger.warning("       Main DW pipeline successful. Lake export is optional.")
+        
+        # STEP 7: Verification (UPDATED numbering)
+        print_step_header(7, "DATA VERIFICATION")
         
         from config.database_config import get_engine
         from sqlalchemy import text
@@ -149,6 +175,18 @@ def run_etl_pipeline():
         logger.info("\nData Warehouse Row Counts:")
         logger.info("\n" + df_verification.to_string(index=False))
         
+        # ✅ Data Lake Verification (NEW)
+        logger.info("\nData Lake Status:")
+        from pathlib import Path
+        
+        bronze_files = list(Path('data/lake/raw').glob('*.csv'))
+        silver_files = list(Path('data/lake/processed').glob('*.parquet'))
+        gold_files = list(Path('data/lake/curated').glob('*.parquet'))
+        
+        logger.info(f"  Bronze Layer: {len(bronze_files)} files")
+        logger.info(f"  Silver Layer: {len(silver_files)} files")
+        logger.info(f"  Gold Layer: {len(gold_files)} files")
+        
         # Calculate duration
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds()
@@ -179,7 +217,6 @@ def run_etl_pipeline():
         print_separator()
         
         return False
-
 
 if __name__ == "__main__":
     success = run_etl_pipeline()
