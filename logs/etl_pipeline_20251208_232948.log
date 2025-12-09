@@ -1,0 +1,148 @@
+2025-12-08 23:29:48,433 - __main__ - INFO - ================================================================================
+2025-12-08 23:29:48,433 - __main__ - INFO - NOURISH BEAUTY DATA WAREHOUSE - ETL PIPELINE
+2025-12-08 23:29:48,434 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-08 23:29:48,434 - __main__ - INFO -    Date: 2025-12-08 23:29:48
+2025-12-08 23:29:48,434 - __main__ - INFO - ================================================================================
+2025-12-08 23:29:48,434 - __main__ - INFO - 
+2025-12-08 23:29:48,435 - __main__ - INFO - STEP 1: Testing Database Connection
+2025-12-08 23:29:48,435 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-08 23:29:48,791 - config.database_config - INFO - Testing database connection...
+2025-12-08 23:29:48,792 - config.database_config - INFO -   Host: postgres
+2025-12-08 23:29:48,792 - config.database_config - INFO -   Port: 5432
+2025-12-08 23:29:48,792 - config.database_config - INFO -   Database: dw_nourish
+2025-12-08 23:29:48,792 - config.database_config - INFO -   User: postgres
+2025-12-08 23:29:48,892 - __main__ - INFO - 
+2025-12-08 23:29:48,892 - __main__ - INFO - STEP 2: EXTRACT PHASE - Raw Data from CSV
+2025-12-08 23:29:48,893 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-08 23:29:49,911 - __main__ - INFO - Extracting Sales Data...
+2025-12-08 23:29:49,912 - etl.extract.extract_sales - INFO - Starting sales data extraction...
+2025-12-08 23:29:49,912 - etl.extract.extract_sales - INFO - Reading file: /app/data/raw/SuperMarket-Analysis-penjualan.csv
+2025-12-08 23:29:49,931 - etl.extract.extract_sales - INFO - [OK] Loaded 1000 rows from SuperMarket-Analysis-penjualan.csv
+2025-12-08 23:29:49,931 - etl.extract.extract_sales - INFO - Applying transformations...
+2025-12-08 23:29:49,931 - etl.transform.transform_sales - INFO - Applying 40 transformation rules to sales data...
+2025-12-08 23:29:49,931 - etl.transform.transform_sales - INFO -    Initial row count: 1000
+2025-12-08 23:29:49,931 - etl.transform.transform_sales - INFO - RULE 0: Pre-cleaning Indonesian number format & USD to IDR conversion...
+2025-12-08 23:29:49,932 - etl.transform.transform_sales - INFO -    ✓ Detected USD format (avg: $307.59)
+2025-12-08 23:29:49,934 - etl.transform.transform_sales - INFO -    harga_satuan: 74.69 → Rp 1,120,350
+2025-12-08 23:29:49,936 - etl.transform.transform_sales - INFO -    pajak_5_persen: 261.415 → Rp 3,921,225
+2025-12-08 23:29:49,937 - etl.transform.transform_sales - INFO -    total_penjualan_sebelum_pajak: 522.83 → Rp 7,842,450
+2025-12-08 23:29:49,941 - etl.transform.transform_sales - INFO -    pendapatan_kotor: 261.415 → Rp 3,921,225
+2025-12-08 23:29:49,942 - etl.transform.transform_sales - INFO -    persentase_gross_margin: 4761904762.00% (kept as percentage)
+2025-12-08 23:29:49,943 - etl.transform.transform_sales - INFO - RULE 1-5: Data Type Conversion
+2025-12-08 23:29:49,947 - etl.transform.transform_sales - INFO - RULE 6-10: Handle Missing Values
+2025-12-08 23:29:49,953 - etl.transform.transform_sales - INFO - RULE 11-15: Data Cleaning
+2025-12-08 23:29:49,957 - etl.transform.transform_sales - INFO - RULE 16-20: Standardization
+2025-12-08 23:29:49,962 - etl.transform.transform_sales - INFO - RULE 21-25: Calculate Derived Fields
+2025-12-08 23:29:49,968 - etl.transform.transform_sales - INFO - RULE 26-30: Validation & Quality Checks
+2025-12-08 23:29:49,974 - etl.transform.transform_sales - INFO - RULE 31-35: Business Logic & Categorization
+2025-12-08 23:29:49,997 - etl.transform.transform_sales - INFO - RULE 36-40: Final Cleaning & Outlier Removal
+2025-12-08 23:29:50,013 - etl.transform.transform_sales - INFO - [OK] Transformation complete!
+2025-12-08 23:29:50,014 - etl.transform.transform_sales - INFO -    Initial rows: 1000
+2025-12-08 23:29:50,015 - etl.transform.transform_sales - INFO -    Final rows: 991
+2025-12-08 23:29:50,017 - etl.transform.transform_sales - INFO -    Removed: 9 (0.9%)
+2025-12-08 23:29:50,017 - etl.transform.transform_sales - INFO -    Retention rate: 99.1%
+2025-12-08 23:29:50,018 - etl.transform.transform_sales - INFO -    Currency converted: USD → IDR (rate: 15,000)
+2025-12-08 23:29:50,018 - etl.transform.transform_sales - INFO - 
+   SUMMARY STATISTICS (in IDR):
+2025-12-08 23:29:50,019 - etl.transform.transform_sales - INFO -    - Total Revenue: Rp 4,502,404,650
+2025-12-08 23:29:50,019 - etl.transform.transform_sales - INFO -    - Avg Transaction: Rp 4,543,294
+2025-12-08 23:29:50,020 - etl.transform.transform_sales - INFO -    - Min Transaction: Rp 152,550
+2025-12-08 23:29:50,020 - etl.transform.transform_sales - INFO -    - Max Transaction: Rp 14,895,000
+2025-12-08 23:29:50,053 - etl.extract.extract_sales - INFO - [OK] Saved to staging file: /app/data/staging/staging_sales.csv
+2025-12-08 23:29:50,054 - etl.extract.extract_sales - INFO - [OK] Extraction complete: 991 records ready
+2025-12-08 23:29:50,054 - etl.extract.extract_sales - INFO - 
+Loading sales data to staging_sales table...
+2025-12-08 23:29:50,054 - etl.extract.extract_sales - INFO -    Records to load: 991
+2025-12-08 23:29:50,056 - etl.extract.extract_sales - INFO -    Truncating staging_sales table...
+2025-12-08 23:29:50,093 - etl.extract.extract_sales - ERROR - [ERROR] Error loading to staging: (psycopg2.errors.UndefinedTable) relation "staging_sales" does not exist
+
+[SQL: TRUNCATE TABLE staging_sales RESTART IDENTITY CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-12-08 23:29:50,111 - etl.extract.extract_sales - ERROR - Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "staging_sales" does not exist
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/etl/extract/extract_sales.py", line 88, in load_to_staging_db
+    conn.execute(text("TRUNCATE TABLE staging_sales RESTART IDENTITY CASCADE"))
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "staging_sales" does not exist
+
+[SQL: TRUNCATE TABLE staging_sales RESTART IDENTITY CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2025-12-08 23:29:50,112 - __main__ - ERROR - 
+2025-12-08 23:29:50,113 - __main__ - INFO - ================================================================================
+2025-12-08 23:29:50,114 - __main__ - ERROR - ❌ [ERROR] ETL PIPELINE FAILED: (psycopg2.errors.UndefinedTable) relation "staging_sales" does not exist
+
+[SQL: TRUNCATE TABLE staging_sales RESTART IDENTITY CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-12-08 23:29:50,115 - __main__ - INFO - ================================================================================
+2025-12-08 23:29:50,122 - __main__ - ERROR - Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "staging_sales" does not exist
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/run_etl.py", line 85, in run_etl_pipeline
+    load_sales_staging(df_sales)
+  File "/app/etl/extract/extract_sales.py", line 88, in load_to_staging_db
+    conn.execute(text("TRUNCATE TABLE staging_sales RESTART IDENTITY CASCADE"))
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "staging_sales" does not exist
+
+[SQL: TRUNCATE TABLE staging_sales RESTART IDENTITY CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2025-12-08 23:29:50,123 - __main__ - ERROR - Failed after: 1.68 seconds
+2025-12-08 23:29:50,124 - __main__ - ERROR - Check log file: logs/etl_pipeline_20251208_232948.log
+2025-12-08 23:29:50,124 - __main__ - INFO - ================================================================================

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Service 1: Dashboard Streamlit
+  dashboard:
+    build: .
+    container_name: nourish_dashboard
+    command: streamlit run dashboard/app.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data  # Agar data sinkron dengan laptop
+      - ./logs:/app/logs
+    env_file:
+      - .env  # Baca file .env asli (yang localhost)
+    environment:
+      # --- OVERRIDE SECTION ---
+      # Bagian ini akan MENIMPA isi .env khusus saat jalan di Docker
+      - DB_HOST=host.docker.internal
+      # Kita harus timpa URI juga karena di .env Anda URI-nya hardcoded localhost
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:rute@host.docker.internal:5432/dw_nourish
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Penting untuk Linux/WSL agar kenal host
+
+  # Service 2: ETL Pipeline
+  etl:
+    build: .
+    container_name: nourish_etl
+    command: python run_etl.py
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    env_file:
+      - .env
+    environment:
+      # --- OVERRIDE SECTION ---
+      - DB_HOST=host.docker.internal
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:rute@host.docker.internal:5432/dw_nourish
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

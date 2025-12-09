@@ -1,0 +1,31 @@
+2025-12-08 23:46:34,050 - __main__ - INFO - ================================================================================
+2025-12-08 23:46:34,052 - __main__ - INFO - NOURISH BEAUTY DATA WAREHOUSE - ETL PIPELINE
+2025-12-08 23:46:34,054 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-08 23:46:34,056 - __main__ - INFO -    Date: 2025-12-08 23:46:34
+2025-12-08 23:46:34,056 - __main__ - INFO - ================================================================================
+2025-12-08 23:46:34,058 - __main__ - INFO - 
+2025-12-08 23:46:34,058 - __main__ - INFO - STEP 1: Testing Database Connection
+2025-12-08 23:46:34,060 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-08 23:46:34,724 - config.database_config - INFO - Testing database connection...
+2025-12-08 23:46:34,724 - config.database_config - INFO -   Host: localhost
+2025-12-08 23:46:34,725 - config.database_config - INFO -   Port: 5432
+2025-12-08 23:46:34,725 - config.database_config - INFO -   Database: dw_nourish
+2025-12-08 23:46:34,725 - config.database_config - INFO -   User: postgres
+2025-12-08 23:46:34,819 - config.database_config - ERROR - ❌ Connection test failed: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-12-08 23:46:34,820 - __main__ - ERROR - 
+2025-12-08 23:46:34,820 - __main__ - INFO - ================================================================================
+2025-12-08 23:46:34,820 - __main__ - ERROR - ❌ [ERROR] ETL PIPELINE FAILED: Database connection failed!
+2025-12-08 23:46:34,820 - __main__ - INFO - ================================================================================
+2025-12-08 23:46:34,825 - __main__ - ERROR - Traceback (most recent call last):
+  File "/app/run_etl.py", line 74, in run_etl_pipeline
+    raise Exception("Database connection failed!")
+Exception: Database connection failed!
+
+2025-12-08 23:46:34,826 - __main__ - ERROR - Failed after: 0.77 seconds
+2025-12-08 23:46:34,826 - __main__ - ERROR - Check log file: logs/etl_pipeline_20251208_234634.log
+2025-12-08 23:46:34,827 - __main__ - INFO - ================================================================================

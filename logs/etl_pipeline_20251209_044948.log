@@ -1,0 +1,242 @@
+2025-12-09 04:49:48,320 - __main__ - INFO - ================================================================================
+2025-12-09 04:49:48,321 - __main__ - INFO - NOURISH BEAUTY DATA WAREHOUSE - ETL PIPELINE
+2025-12-09 04:49:48,322 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-09 04:49:48,322 - __main__ - INFO -    Date: 2025-12-09 04:49:48
+2025-12-09 04:49:48,322 - __main__ - INFO - ================================================================================
+2025-12-09 04:49:48,322 - __main__ - INFO - 
+2025-12-09 04:49:48,323 - __main__ - INFO - STEP 1: Testing Database Connection
+2025-12-09 04:49:48,323 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-09 04:49:48,790 - __main__ - INFO - 
+2025-12-09 04:49:48,790 - __main__ - INFO - STEP 2: EXTRACT PHASE
+2025-12-09 04:49:48,791 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-09 04:49:49,415 - __main__ - INFO - Extracting Sales Data...
+2025-12-09 04:49:49,416 - etl.extract.extract_sales - INFO - Starting sales data extraction...
+2025-12-09 04:49:49,416 - etl.extract.extract_sales - INFO - Reading file: /app/data/raw/SuperMarket-Analysis-penjualan.csv
+2025-12-09 04:49:49,428 - etl.extract.extract_sales - INFO - [OK] Loaded 1000 rows from SuperMarket-Analysis-penjualan.csv
+2025-12-09 04:49:49,428 - etl.extract.extract_sales - INFO - Applying transformations...
+2025-12-09 04:49:49,429 - etl.transform.transform_sales - INFO - Applying 40 transformation rules to sales data...
+2025-12-09 04:49:49,429 - etl.transform.transform_sales - INFO -    Initial row count: 1000
+2025-12-09 04:49:49,429 - etl.transform.transform_sales - INFO - RULE 0: Pre-cleaning Indonesian number format & USD to IDR conversion...
+2025-12-09 04:49:49,430 - etl.transform.transform_sales - INFO -    ✓ Detected USD format (avg: $307.59)
+2025-12-09 04:49:49,432 - etl.transform.transform_sales - INFO -    harga_satuan: 74.69 → Rp 1,120,350
+2025-12-09 04:49:49,432 - etl.transform.transform_sales - INFO -    pajak_5_persen: 261.415 → Rp 3,921,225
+2025-12-09 04:49:49,433 - etl.transform.transform_sales - INFO -    total_penjualan_sebelum_pajak: 522.83 → Rp 7,842,450
+2025-12-09 04:49:49,436 - etl.transform.transform_sales - INFO -    pendapatan_kotor: 261.415 → Rp 3,921,225
+2025-12-09 04:49:49,436 - etl.transform.transform_sales - INFO -    persentase_gross_margin: 4761904762.00% (kept as percentage)
+2025-12-09 04:49:49,437 - etl.transform.transform_sales - INFO - RULE 1-5: Data Type Conversion
+2025-12-09 04:49:49,441 - etl.transform.transform_sales - INFO - RULE 6-10: Handle Missing Values
+2025-12-09 04:49:49,444 - etl.transform.transform_sales - INFO - RULE 11-15: Data Cleaning
+2025-12-09 04:49:49,447 - etl.transform.transform_sales - INFO - RULE 16-20: Standardization
+2025-12-09 04:49:49,450 - etl.transform.transform_sales - INFO - RULE 21-25: Calculate Derived Fields
+2025-12-09 04:49:49,452 - etl.transform.transform_sales - INFO - RULE 26-30: Validation & Quality Checks
+2025-12-09 04:49:49,455 - etl.transform.transform_sales - INFO - RULE 31-35: Business Logic & Categorization
+2025-12-09 04:49:49,462 - etl.transform.transform_sales - INFO - RULE 36-40: Final Cleaning & Outlier Removal
+2025-12-09 04:49:49,467 - etl.transform.transform_sales - INFO - [OK] Transformation complete!
+2025-12-09 04:49:49,467 - etl.transform.transform_sales - INFO -    Initial rows: 1000
+2025-12-09 04:49:49,467 - etl.transform.transform_sales - INFO -    Final rows: 991
+2025-12-09 04:49:49,468 - etl.transform.transform_sales - INFO -    Removed: 9 (0.9%)
+2025-12-09 04:49:49,468 - etl.transform.transform_sales - INFO -    Retention rate: 99.1%
+2025-12-09 04:49:49,468 - etl.transform.transform_sales - INFO -    Currency converted: USD → IDR (rate: 15,000)
+2025-12-09 04:49:49,469 - etl.transform.transform_sales - INFO - 
+   SUMMARY STATISTICS (in IDR):
+2025-12-09 04:49:49,469 - etl.transform.transform_sales - INFO -    - Total Revenue: Rp 4,502,404,650
+2025-12-09 04:49:49,470 - etl.transform.transform_sales - INFO -    - Avg Transaction: Rp 4,543,294
+2025-12-09 04:49:49,471 - etl.transform.transform_sales - INFO -    - Min Transaction: Rp 152,550
+2025-12-09 04:49:49,471 - etl.transform.transform_sales - INFO -    - Max Transaction: Rp 14,895,000
+2025-12-09 04:49:49,489 - etl.extract.extract_sales - INFO - [OK] Saved to staging file: /app/data/staging/staging_sales.csv
+2025-12-09 04:49:49,490 - etl.extract.extract_sales - INFO - [OK] Extraction complete: 991 records ready
+2025-12-09 04:49:49,490 - etl.extract.extract_sales - INFO - 
+Loading sales data to staging_sales table...
+2025-12-09 04:49:49,491 - etl.extract.extract_sales - INFO -    Records to load: 991
+2025-12-09 04:49:49,491 - etl.extract.extract_sales - INFO -    Truncating staging_sales table...
+2025-12-09 04:49:49,557 - etl.extract.extract_sales - INFO -    Original shape: (991, 17)
+2025-12-09 04:49:49,558 - etl.extract.extract_sales - INFO -    Original columns: ['id_invoice', 'cabang', 'kota', 'tipe_customer', 'jenis_kelamin', 'kategori_produk', 'harga_satuan', 'jumlah', 'pajak_5_persen', 'tanggal', 'waktu', 'metode_pembayaran', 'total_penjualan_sebelum_pajak', 'persentase_gross_margin', 'pendapatan_kotor', 'rating', 'load_timestamp']
+2025-12-09 04:49:49,559 - etl.extract.extract_sales - INFO -    Clean shape: (991, 17)
+2025-12-09 04:49:49,560 - etl.extract.extract_sales - INFO -    Clean columns: ['id_invoice', 'cabang', 'kota', 'tipe_customer', 'jenis_kelamin', 'kategori_produk', 'harga_satuan', 'jumlah', 'pajak_5_persen', 'tanggal', 'waktu', 'metode_pembayaran', 'total_penjualan_sebelum_pajak', 'persentase_gross_margin', 'pendapatan_kotor', 'rating', 'load_timestamp']
+2025-12-09 04:49:49,565 - etl.extract.extract_sales - INFO -    Loading data in 10 chunks of 100 rows...
+2025-12-09 04:49:49,614 - etl.extract.extract_sales - INFO -    ✓ Chunk 1/10 loaded (100 rows, total: 100)
+2025-12-09 04:49:49,643 - etl.extract.extract_sales - INFO -    ✓ Chunk 2/10 loaded (100 rows, total: 200)
+2025-12-09 04:49:49,681 - etl.extract.extract_sales - INFO -    ✓ Chunk 3/10 loaded (100 rows, total: 300)
+2025-12-09 04:49:49,845 - etl.extract.extract_sales - INFO -    ✓ Chunk 4/10 loaded (100 rows, total: 400)
+2025-12-09 04:49:49,891 - etl.extract.extract_sales - INFO -    ✓ Chunk 5/10 loaded (100 rows, total: 500)
+2025-12-09 04:49:49,925 - etl.extract.extract_sales - INFO -    ✓ Chunk 6/10 loaded (100 rows, total: 600)
+2025-12-09 04:49:49,956 - etl.extract.extract_sales - INFO -    ✓ Chunk 7/10 loaded (100 rows, total: 700)
+2025-12-09 04:49:49,994 - etl.extract.extract_sales - INFO -    ✓ Chunk 8/10 loaded (100 rows, total: 800)
+2025-12-09 04:49:50,055 - etl.extract.extract_sales - INFO -    ✓ Chunk 9/10 loaded (100 rows, total: 900)
+2025-12-09 04:49:50,091 - etl.extract.extract_sales - INFO -    ✓ Chunk 10/10 loaded (91 rows, total: 991)
+2025-12-09 04:49:50,091 - etl.extract.extract_sales - INFO - [OK] Successfully loaded 991 rows to staging_sales
+2025-12-09 04:49:50,094 - etl.extract.extract_sales - INFO - [OK] Verified staging_sales row count: 991
+2025-12-09 04:49:50,097 - etl.extract.extract_sales - INFO - [OK] Stats: Rows=991, Avg=Rp 4,543,294, Min=Rp 152,550, Max=Rp 14,895,000
+2025-12-09 04:49:50,098 - __main__ - INFO - Extracting HR Data...
+2025-12-09 04:49:50,099 - etl.extract.extract_hr - INFO - Starting HR data extraction...
+2025-12-09 04:49:50,099 - etl.extract.extract_hr - INFO - Reading file: /app/data/raw/HRDataset.csv
+2025-12-09 04:49:50,112 - etl.extract.extract_hr - INFO - [OK] Loaded 311 rows from HRDataset.csv
+2025-12-09 04:49:50,112 - etl.extract.extract_hr - INFO -    Columns: 36
+2025-12-09 04:49:50,113 - etl.extract.extract_hr - INFO -    Converting date column: dob
+2025-12-09 04:49:50,115 - etl.extract.extract_hr - INFO -    Converting date column: dateofhire
+2025-12-09 04:49:50,116 - etl.extract.extract_hr - INFO -    Converting date column: dateoftermination
+2025-12-09 04:49:50,118 - etl.extract.extract_hr - INFO -    Converting date column: lastperformancereview_date
+2025-12-09 04:49:50,138 - etl.extract.extract_hr - INFO - [OK] Saved to staging file: /app/data/staging/staging_hr.csv
+2025-12-09 04:49:50,138 - etl.extract.extract_hr - INFO - [OK] Extraction complete: 311 records ready
+2025-12-09 04:49:50,139 - etl.extract.extract_hr - INFO - Loading HR data to staging_hr table...
+2025-12-09 04:49:50,139 - etl.extract.extract_hr - INFO -    Records to load: 311
+2025-12-09 04:49:50,140 - etl.extract.extract_hr - INFO -    Truncating staging_hr table...
+2025-12-09 04:49:50,206 - etl.extract.extract_hr - INFO -    Loading rows individually...
+2025-12-09 04:49:50,898 - etl.extract.extract_hr - INFO -    Progress: 50/311 rows loaded
+2025-12-09 04:49:51,540 - etl.extract.extract_hr - INFO -    Progress: 100/311 rows loaded
+2025-12-09 04:49:52,268 - etl.extract.extract_hr - INFO -    Progress: 150/311 rows loaded
+2025-12-09 04:49:53,130 - etl.extract.extract_hr - INFO -    Progress: 200/311 rows loaded
+2025-12-09 04:49:54,173 - etl.extract.extract_hr - INFO -    Progress: 250/311 rows loaded
+2025-12-09 04:49:55,212 - etl.extract.extract_hr - INFO -    Progress: 300/311 rows loaded
+2025-12-09 04:49:55,361 - etl.extract.extract_hr - INFO -    Progress: 311/311 rows loaded
+2025-12-09 04:49:55,361 - etl.extract.extract_hr - INFO - [OK] Successfully loaded 311 rows
+2025-12-09 04:49:55,364 - etl.extract.extract_hr - INFO - [OK] Verified row count: 311
+2025-12-09 04:49:55,365 - __main__ - INFO - Extracting Marketing Data...
+2025-12-09 04:49:55,365 - etl.extract.extract_marketing - INFO - Starting marketing data extraction...
+2025-12-09 04:49:55,365 - etl.extract.extract_marketing - INFO - Reading file: /app/data/raw/marketing_campaign.csv
+2025-12-09 04:49:55,365 - etl.extract.extract_marketing - INFO -    Trying delimiter: '	'
+2025-12-09 04:49:55,374 - etl.extract.extract_marketing - WARNING -    Failed: only 1 columns detected
+2025-12-09 04:49:55,375 - etl.extract.extract_marketing - INFO -    Trying delimiter: ';'
+2025-12-09 04:49:55,394 - etl.extract.extract_marketing - INFO -    [OK] Successfully read with delimiter ';'
+2025-12-09 04:49:55,395 - etl.extract.extract_marketing - INFO -    Columns detected: 29
+2025-12-09 04:49:55,395 - etl.extract.extract_marketing - INFO - [OK] Loaded 1000 rows from marketing_campaign.csv
+2025-12-09 04:49:55,396 - etl.extract.extract_marketing - INFO -    Columns: ['ID', 'Year_Birth', 'Education', 'Marital_Status', 'Income']... (29 total)
+2025-12-09 04:49:55,396 - etl.extract.extract_marketing - INFO -    Converting date column: dt_customer
+2025-12-09 04:49:55,422 - etl.extract.extract_marketing - INFO - [OK] Saved to staging file: /app/data/staging/staging_marketing.csv
+2025-12-09 04:49:55,422 - etl.extract.extract_marketing - INFO - [OK] Extraction complete: 1000 records ready
+2025-12-09 04:49:55,422 - etl.extract.extract_marketing - INFO - Loading marketing data to staging_marketing table...
+2025-12-09 04:49:55,423 - etl.extract.extract_marketing - INFO -    Records to load: 1000
+2025-12-09 04:49:55,423 - etl.extract.extract_marketing - INFO -    Dropping and recreating staging_marketing table...
+2025-12-09 04:49:55,478 - etl.extract.extract_marketing - INFO -    Loading data with auto-schema detection...
+2025-12-09 04:49:56,021 - etl.extract.extract_marketing - INFO - [OK] Successfully loaded 1000 rows
+2025-12-09 04:49:56,053 - etl.extract.extract_marketing - INFO - [OK] Verified row count: 1000
+2025-12-09 04:49:56,064 - __main__ - INFO - [OK] Extract phase completed!
+2025-12-09 04:49:56,067 - __main__ - INFO - 
+2025-12-09 04:49:56,069 - __main__ - INFO - STEP 3: TRANSFORM PHASE
+2025-12-09 04:49:56,069 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-09 04:49:56,077 - __main__ - INFO - Transformation rules will be applied during load phase
+2025-12-09 04:49:56,087 - __main__ - INFO - [OK] 40 transformation rules ready
+2025-12-09 04:49:56,093 - __main__ - INFO - 
+2025-12-09 04:49:56,094 - __main__ - INFO - STEP 4: LOAD DIMENSIONS
+2025-12-09 04:49:56,095 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-09 04:49:56,098 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-09 04:49:56,102 - etl.load.load_dimensions - INFO - STARTING DIMENSION LOAD PROCESS
+2025-12-09 04:49:56,103 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-09 04:49:56,104 - etl.load.load_dimensions - INFO - Loading dim_produk...
+2025-12-09 04:49:56,360 - etl.load.load_dimensions - INFO - [OK] Loaded 6 products to dim_produk
+2025-12-09 04:49:56,365 - etl.load.load_dimensions - INFO - Loading dim_customer...
+2025-12-09 04:49:56,489 - etl.load.load_dimensions - INFO -    Truncated dim_customer table
+2025-12-09 04:49:56,604 - etl.load.load_dimensions - INFO -    Loaded chunk 1: 50 rows (Total: 50/1000)
+2025-12-09 04:49:56,638 - etl.load.load_dimensions - INFO -    Loaded chunk 2: 50 rows (Total: 100/1000)
+2025-12-09 04:49:56,668 - etl.load.load_dimensions - INFO -    Loaded chunk 3: 50 rows (Total: 150/1000)
+2025-12-09 04:49:56,697 - etl.load.load_dimensions - INFO -    Loaded chunk 4: 50 rows (Total: 200/1000)
+2025-12-09 04:49:56,725 - etl.load.load_dimensions - INFO -    Loaded chunk 5: 50 rows (Total: 250/1000)
+2025-12-09 04:49:56,757 - etl.load.load_dimensions - INFO -    Loaded chunk 6: 50 rows (Total: 300/1000)
+2025-12-09 04:49:56,782 - etl.load.load_dimensions - INFO -    Loaded chunk 7: 50 rows (Total: 350/1000)
+2025-12-09 04:49:56,830 - etl.load.load_dimensions - INFO -    Loaded chunk 8: 50 rows (Total: 400/1000)
+2025-12-09 04:49:56,858 - etl.load.load_dimensions - INFO -    Loaded chunk 9: 50 rows (Total: 450/1000)
+2025-12-09 04:49:56,887 - etl.load.load_dimensions - INFO -    Loaded chunk 10: 50 rows (Total: 500/1000)
+2025-12-09 04:49:56,912 - etl.load.load_dimensions - INFO -    Loaded chunk 11: 50 rows (Total: 550/1000)
+2025-12-09 04:49:56,938 - etl.load.load_dimensions - INFO -    Loaded chunk 12: 50 rows (Total: 600/1000)
+2025-12-09 04:49:56,973 - etl.load.load_dimensions - INFO -    Loaded chunk 13: 50 rows (Total: 650/1000)
+2025-12-09 04:49:56,992 - etl.load.load_dimensions - INFO -    Loaded chunk 14: 50 rows (Total: 700/1000)
+2025-12-09 04:49:57,010 - etl.load.load_dimensions - INFO -    Loaded chunk 15: 50 rows (Total: 750/1000)
+2025-12-09 04:49:57,033 - etl.load.load_dimensions - INFO -    Loaded chunk 16: 50 rows (Total: 800/1000)
+2025-12-09 04:49:57,104 - etl.load.load_dimensions - INFO -    Loaded chunk 17: 50 rows (Total: 850/1000)
+2025-12-09 04:49:57,129 - etl.load.load_dimensions - INFO -    Loaded chunk 18: 50 rows (Total: 900/1000)
+2025-12-09 04:49:57,163 - etl.load.load_dimensions - INFO -    Loaded chunk 19: 50 rows (Total: 950/1000)
+2025-12-09 04:49:57,194 - etl.load.load_dimensions - INFO -    Loaded chunk 20: 50 rows (Total: 1000/1000)
+2025-12-09 04:49:57,196 - etl.load.load_dimensions - INFO - [OK] Successfully loaded 1000 customers to dim_customer
+2025-12-09 04:49:57,197 - etl.load.load_dimensions - INFO - Loading dim_employee...
+2025-12-09 04:49:57,421 - etl.load.load_dimensions - INFO -    Truncated dim_employee table
+2025-12-09 04:49:57,483 - etl.load.load_dimensions - INFO -    Loaded chunk 1: 50 rows (Total: 50/311)
+2025-12-09 04:49:57,582 - etl.load.load_dimensions - INFO -    Loaded chunk 2: 50 rows (Total: 100/311)
+2025-12-09 04:49:57,622 - etl.load.load_dimensions - INFO -    Loaded chunk 3: 50 rows (Total: 150/311)
+2025-12-09 04:49:57,652 - etl.load.load_dimensions - INFO -    Loaded chunk 4: 50 rows (Total: 200/311)
+2025-12-09 04:49:57,684 - etl.load.load_dimensions - INFO -    Loaded chunk 5: 50 rows (Total: 250/311)
+2025-12-09 04:49:57,712 - etl.load.load_dimensions - INFO -    Loaded chunk 6: 50 rows (Total: 300/311)
+2025-12-09 04:49:57,727 - etl.load.load_dimensions - INFO -    Loaded chunk 7: 11 rows (Total: 311/311)
+2025-12-09 04:49:57,730 - etl.load.load_dimensions - INFO - [OK] Successfully loaded 311 employees to dim_employee
+2025-12-09 04:49:57,730 - etl.load.load_dimensions - INFO - Verifying dimension tables...
+2025-12-09 04:49:57,854 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-09 04:49:57,855 - etl.load.load_dimensions - INFO - [OK] ALL DIMENSIONS LOADED SUCCESSFULLY!
+2025-12-09 04:49:57,855 - etl.load.load_dimensions - INFO - Total time: 1.75 seconds
+2025-12-09 04:49:57,856 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-09 04:49:57,856 - __main__ - INFO - 
+2025-12-09 04:49:57,856 - __main__ - INFO - STEP 5: LOAD FACT TABLES
+2025-12-09 04:49:57,857 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-09 04:49:57,859 - etl.load.load_facts - INFO - ======================================================================
+2025-12-09 04:49:57,859 - etl.load.load_facts - INFO - STARTING FACT TABLES LOAD PROCESS
+2025-12-09 04:49:57,860 - etl.load.load_facts - INFO - ======================================================================
+2025-12-09 04:49:57,860 - etl.load.load_facts - INFO - Loading fact_sales...
+2025-12-09 04:49:58,167 - etl.load.load_facts - INFO - [OK] Loaded 991 rows to fact_sales
+2025-12-09 04:49:58,167 - etl.load.load_facts - INFO - Loading fact_marketing_response...
+2025-12-09 04:49:58,232 - etl.load.load_facts - INFO -    Debug - Marketing: 1000 rows, dates: 2012-08-01 to 2014-06-29
+2025-12-09 04:49:58,232 - etl.load.load_facts - INFO -    Debug - dim_tanggal: 7305 dates, range: 2012-01-01 to 2031-12-31
+2025-12-09 04:49:58,232 - etl.load.load_facts - INFO -    Debug - Matching rows after JOIN: 1000
+2025-12-09 04:49:58,267 - etl.load.load_facts - INFO - [OK] Loaded 1000 rows to fact_marketing_response
+2025-12-09 04:49:58,268 - etl.load.load_facts - INFO - Loading fact_employee_performance...
+2025-12-09 04:49:58,339 - etl.load.load_facts - INFO - [OK] Loaded 306 rows to fact_employee_performance
+2025-12-09 04:49:58,339 - etl.load.load_facts - INFO - Verifying fact tables...
+2025-12-09 04:49:58,555 - etl.load.load_facts - INFO - ======================================================================
+2025-12-09 04:49:58,555 - etl.load.load_facts - INFO - [OK] ALL FACT TABLES LOADED SUCCESSFULLY!
+2025-12-09 04:49:58,556 - etl.load.load_facts - INFO - Total time: 0.70 seconds
+2025-12-09 04:49:58,556 - etl.load.load_facts - INFO - ======================================================================
+2025-12-09 04:49:58,556 - __main__ - INFO - 
+2025-12-09 04:49:58,556 - __main__ - INFO - STEP 6: EXPORT TO DATA LAKE
+2025-12-09 04:49:58,556 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-09 04:49:58,557 - __main__ - INFO - Bronze Layer: Raw files already in data/lake/raw/
+2025-12-09 04:49:58,557 - __main__ - INFO - Exporting to Silver Layer (Processed)...
+2025-12-09 04:49:58,561 - etl.export_to_silver_layer - INFO -   → cleaned_sales.parquet
+2025-12-09 04:49:58,848 - etl.export_to_silver_layer - INFO -      Exported 991 rows
+2025-12-09 04:49:58,849 - etl.export_to_silver_layer - INFO -   → cleaned_hr.parquet
+2025-12-09 04:49:58,904 - etl.export_to_silver_layer - INFO -      Exported 311 rows
+2025-12-09 04:49:58,904 - etl.export_to_silver_layer - INFO -   → cleaned_marketing.parquet
+2025-12-09 04:49:58,970 - etl.export_to_silver_layer - INFO -      Exported 1000 rows
+2025-12-09 04:49:58,974 - etl.export_to_silver_layer - INFO - ✅ Silver layer: 3 files created in data/lake/processed
+2025-12-09 04:49:58,975 - __main__ - INFO - ✅ Silver layer export completed
+2025-12-09 04:49:58,975 - __main__ - INFO - Exporting to Gold Layer (Curated)...
+2025-12-09 04:49:58,978 - etl.export_to_gold_layer - INFO -   → sales_metrics_daily.parquet
+2025-12-09 04:49:59,062 - etl.export_to_gold_layer - INFO -      Exported 263 rows
+2025-12-09 04:49:59,063 - etl.export_to_gold_layer - INFO -   → product_performance.parquet
+2025-12-09 04:49:59,098 - etl.export_to_gold_layer - INFO -      Exported 6 rows
+2025-12-09 04:49:59,099 - etl.export_to_gold_layer - INFO -   → branch_performance.parquet
+2025-12-09 04:49:59,125 - etl.export_to_gold_layer - INFO -      Exported 3 rows
+2025-12-09 04:49:59,126 - etl.export_to_gold_layer - INFO -   → payment_analysis.parquet
+2025-12-09 04:49:59,154 - etl.export_to_gold_layer - INFO -      Exported 3 rows
+2025-12-09 04:49:59,155 - etl.export_to_gold_layer - INFO -   → customer_demographics.parquet
+2025-12-09 04:49:59,181 - etl.export_to_gold_layer - INFO -      Exported 4 rows
+2025-12-09 04:49:59,181 - etl.export_to_gold_layer - INFO -   → sales_time_patterns.parquet
+2025-12-09 04:49:59,199 - etl.export_to_gold_layer - INFO -      Exported 11 rows
+2025-12-09 04:49:59,202 - etl.export_to_gold_layer - INFO - ✅ Gold layer: 6 files created in data/lake/curated
+2025-12-09 04:49:59,202 - __main__ - INFO - ✅ Gold layer export completed
+2025-12-09 04:49:59,203 - __main__ - INFO - [OK] Data Lake export phase completed!
+2025-12-09 04:49:59,203 - __main__ - INFO - 
+2025-12-09 04:49:59,203 - __main__ - INFO - STEP 7: DATA VERIFICATION
+2025-12-09 04:49:59,204 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-09 04:49:59,264 - __main__ - INFO - 
+Data Warehouse Row Counts:
+2025-12-09 04:49:59,265 - __main__ - INFO - 
+               table_name  row_count
+               dim_cabang          7
+             dim_customer       1000
+             dim_employee        311
+              dim_payment          6
+               dim_produk          6
+              dim_tanggal       7305
+fact_employee_performance        306
+  fact_marketing_response       1000
+               fact_sales        991
+2025-12-09 04:49:59,265 - __main__ - INFO - 
+Data Lake Status:
+2025-12-09 04:49:59,273 - __main__ - INFO -   Bronze Layer: 3 files
+2025-12-09 04:49:59,273 - __main__ - INFO -   Silver Layer: 3 files
+2025-12-09 04:49:59,273 - __main__ - INFO -   Gold Layer: 6 files
+2025-12-09 04:49:59,273 - __main__ - INFO - 
+2025-12-09 04:49:59,273 - __main__ - INFO - ================================================================================
+2025-12-09 04:49:59,274 - __main__ - INFO - [OK] ETL PIPELINE COMPLETED SUCCESSFULLY!
+2025-12-09 04:49:59,274 - __main__ - INFO - ================================================================================
+2025-12-09 04:49:59,274 - __main__ - INFO - Log file: logs/etl_pipeline_20251209_044948.log
+2025-12-09 04:49:59,274 - __main__ - INFO - Duration: 10.95 seconds
+2025-12-09 04:49:59,275 - __main__ - INFO - Completed at: 2025-12-09 04:49:59
+2025-12-09 04:49:59,275 - __main__ - INFO - ================================================================================

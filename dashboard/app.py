@@ -579,11 +579,12 @@ with tab3:
                 percentage = (count / total_emp) * 100
                 
                 st.markdown(f"""
-                <div style='background-color: #FCE4EC; padding: 0.75rem; border-radius: 8px; 
-                            margin-bottom: 0.5rem; border-left: 4px solid {MAROON_COLORS['primary']}; color: #2D2D2D;'>
-                    <strong style='color: #2D2D2D; font-size: 0.9rem;'>{perf_level}</strong><br>
-                    <span style='color: #4A4A4A; font-size: 0.85rem;'>
-                        {count} employees ({percentage:.1f}%)
+                <div style='background: linear-gradient(135deg, #880E4F 0%, #D81B60 100%); padding: 0.75rem; 
+                            border-radius: 8px; margin-bottom: 0.5rem; 
+                            border-left: 4px solid #FF80AB; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);'>
+                            <strong style='color: white; font-size: 0.9rem;'>{perf_level}</strong><br>
+                            <span style='color: rgba(255,255,255,0.8); font-size: 0.85rem;'>
+        {count} employees ({percentage:.1f}%)
                     </span>
                 </div>
                 """, unsafe_allow_html=True)

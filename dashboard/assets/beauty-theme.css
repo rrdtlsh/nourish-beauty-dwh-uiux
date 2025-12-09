@@ -1,539 +1,562 @@
 /* ========================================
-   NOURISH BEAUTY - CLEAN MINIMALIST THEME
-   Author: Raudatul Sholehah - 2310817220002
+   NOURISH BEAUTY - ENHANCED DARK THEME
+   Style: High Contrast + Improved Readability
+   Version: 2.0 - Optimized for Tab Navigation
    ======================================== */
 
-/* === COLOR VARIABLES === */
+
+/* === 1. DEFINISI WARNA (PALET GELAP OPTIMIZED) === */
 :root {
-    --pink-primary: #D81B60;
-    --pink-secondary: #EC407A;
-    --pink-accent: #F48FB1;
-    --pink-light: #FCE4EC;
-    --pink-dark: #880E4F;
+    /* Background Gelap (Streamlit Dark Mode Style) */
+    --bg-main: #0E1117;
+    --bg-secondary: #262730;
+    --bg-card: #1E1E28;
+    --bg-hover: #31313C;
 
-    --bg-main: #FFFFFF;
-    --bg-secondary: #FFF5F8;
-    --bg-card: #FFFFFF;
+    /* Warna Teks (HIGH CONTRAST) */
+    --text-primary: #FAFAFA;
+    /* Putih Terang */
+    --text-secondary: #C9CDD1;
+    /* Abu Terang (seperti Streamlit) */
+    --text-muted: #808495;
+    /* Abu Medium */
+    --text-disabled: #4A4C57;
+    /* Abu Gelap */
 
-    --text-primary: #2D2D2D;
-    --text-secondary: #4A4A4A;
-    --text-muted: #757575;
-    --text-light: #FFFFFF;
+    /* Warna Branding (Pink Neon) */
+    --pink-primary: #FF4081;
+    /* Pink Neon Utama */
+    --pink-secondary: #FF6B9D;
+    /* Pink Lebih Terang */
+    --pink-accent: #FFB3D9;
+    /* Pink Pastel */
+    --pink-dark: #C51162;
+    /* Pink Gelap */
+    --pink-glow: rgba(255, 64, 129, 0.5);
 
-    --border-light: #F0F0F0;
-    --border-pink: #F48FB1;
+    /* Gradient Mewah */
+    --maroon-gradient: linear-gradient(135deg, #AD1457 0%, #D81B60 100%);
+    --pink-gradient: linear-gradient(135deg, #FF4081 0%, #FF80AB 100%);
 
-    --shadow-sm: 0 2px 8px rgba(216, 27, 96, 0.12);
-    --shadow-md: 0 4px 16px rgba(216, 27, 96, 0.15);
-    --shadow-lg: 0 8px 24px rgba(216, 27, 96, 0.18);
+    /* Indikator Status (NEON BRIGHT) */
+    --success: #00E676;
+    --warning: #FFD600;
+    --danger: #FF1744;
+    --info: #00B0FF;
 
-    --success: #4CAF50;
-    --warning: #FF9800;
-    --danger: #F44336;
+    /* Border & Shadow */
+    --border-subtle: #383B47;
+    /* Border halus */
+    --border-medium: #4A4C57;
+    /* Border medium */
+    --border-bright: #FF4081;
+    /* Border pink */
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.6);
+    --shadow-glow: 0 0 20px rgba(255, 64, 129, 0.5);
 }
 
-/* === GLOBAL STYLES === */
+
+/* === 2. GLOBAL STYLES === */
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    background: var(--bg-secondary) !important;
+    font-family: 'Source Sans Pro', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    background-color: var(--bg-main) !important;
     color: var(--text-primary) !important;
     line-height: 1.6 !important;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .main .block-container {
-    padding: 2rem 1.5rem !important;
+    padding: 3rem 2rem !important;
     max-width: 1400px !important;
+    background-color: var(--bg-main) !important;
 }
 
-/* ============================================
-   SIDEBAR - CLEAN MINIMALIST DESIGN
-   ============================================ */
 
-/* Sidebar Container - Transparent background to show gradient from app.py */
-[data-testid="stSidebar"] {
-    background: transparent !important;
-    border-right: none !important;
-    box-shadow: none !important;
-}
-
-[data-testid="stSidebar"]>div:first-child {
-    background: transparent !important;
-    padding: 1rem !important;
-}
-
-/* Remove ALL borders, backgrounds, and boxes from sidebar elements */
-[data-testid="stSidebar"] .element-container {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* Clean divider - minimal line */
-.divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    margin: 1rem 0;
-    border: none;
-}
-
-/* ============================================
-   INFO & STATUS SECTIONS - CLEAN CARDS
-   ============================================ */
-
-/* Info Section - Minimal white card */
-.info-section {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    padding: 0.75rem;
-    margin: 0.75rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.info-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.info-item:last-child {
-    border-bottom: none;
-}
-
-.info-label {
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.info-value {
-    font-size: 0.85rem;
-    color: white;
-    font-weight: 600;
-}
-
-/* Status Section */
-.status-section {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    padding: 0.75rem;
-    margin: 0.75rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.status-title {
-    font-size: 0.7rem;
-    color: white;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.status-item {
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.9);
-    padding: 0.35rem 0;
-}
-
-.status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    margin-right: 0.5rem;
-    flex-shrink: 0;
-}
-
-.status-dot.active {
-    background: #10B981;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.6;
-    }
-}
-
-/* ============================================
-   MAIN CONTENT - KPI CARDS
-   ============================================ */
+/* === 3. HEADER & JUDUL (IMPROVED CONTRAST) === */
 
 .page-title {
-    font-size: 2.25rem !important;
-    font-weight: 800 !important;
+    font-size: 2.75rem !important;
+    font-weight: 700 !important;
+    margin: 0 0 0.75rem 0 !important;
+    letter-spacing: -0.03em;
     color: var(--text-primary) !important;
-    margin: 0 0 0.5rem 0 !important;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--pink-primary), var(--pink-secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
 }
 
 .page-subtitle {
-    font-size: 1rem !important;
+    font-size: 1.125rem !important;
     color: var(--text-secondary) !important;
-    margin: 0 0 2rem 0 !important;
+    font-weight: 400 !important;
+    margin-bottom: 2.5rem !important;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1.25rem;
+    line-height: 1.5;
 }
 
 .section-title {
-    font-size: 1.15rem !important;
-    font-weight: 700 !important;
     color: var(--text-primary) !important;
-    margin-bottom: 1rem !important;
-    padding-left: 0.75rem;
-    border-left: 3px solid var(--pink-primary);
+    font-size: 1.375rem !important;
+    font-weight: 600 !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1.25rem !important;
+    padding-left: 1rem;
+    border-left: 4px solid var(--pink-primary);
 }
 
-.section-spacer {
-    height: 2rem;
+
+/* === 4. SIDEBAR (HIGH CONTRAST) === */
+
+[data-testid="stSidebar"] {
+    background-color: #0E1117 !important;
+    border-right: 1px solid var(--border-subtle) !important;
 }
 
-.section-spacer-small {
-    height: 1rem;
+/* Logo & Header Text di Sidebar */
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
 }
 
-/* KPI Cards */
+/* Paragraph Text di Sidebar */
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span {
+    color: var(--text-secondary) !important;
+}
+
+/* Navigation/Radio Buttons - PENTING UNTUK TAB */
+[data-testid="stSidebar"] .stRadio>label {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] label {
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+    padding: 0.65rem 1rem !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] label:hover {
+    background-color: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] label[data-checked="true"] {
+    background-color: rgba(255, 64, 129, 0.15) !important;
+    color: var(--pink-primary) !important;
+    font-weight: 600 !important;
+}
+
+/* Info Sections di Sidebar */
+.info-section,
+.status-section {
+    background: rgba(38, 39, 48, 0.6);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.info-label {
+    color: var(--text-muted) !important;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.info-value,
+.status-value {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+/* Input Box di Sidebar */
+[data-testid="stSidebar"] .stSelectbox>div>div,
+[data-testid="stSidebar"] .stMultiSelect>div>div {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-medium) !important;
+}
+
+[data-testid="stSidebar"] .stSelectbox label,
+[data-testid="stSidebar"] .stMultiSelect label {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+}
+
+
+/* === 5. TAB NAVIGATION (STREAMLIT STYLE - HIGH CONTRAST) === */
+
+/* Tab Container */
+.stTabs {
+    margin-bottom: 2rem;
+}
+
+/* Tab List (Container untuk semua tab) */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 0.5rem;
+    background-color: transparent !important;
+    border-bottom: 2px solid var(--border-subtle) !important;
+}
+
+/* Individual Tab - DEFAULT STATE */
+.stTabs [data-baseweb="tab"] {
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    padding: 0.75rem 1.25rem !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer;
+}
+
+/* Tab - HOVER STATE */
+.stTabs [data-baseweb="tab"]:hover {
+    background-color: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+/* Tab - ACTIVE/SELECTED STATE */
+.stTabs [data-baseweb="tab"][aria-selected="true"] {
+    background-color: transparent !important;
+    border-bottom: 2px solid var(--pink-primary) !important;
+    color: var(--pink-primary) !important;
+    font-weight: 600 !important;
+}
+
+/* Tab Panel (Content Area) */
+.stTabs [data-baseweb="tab-panel"] {
+    padding-top: 1.5rem;
+}
+
+
+/* === 6. KPI CARDS (MAROON GRADIENT WITH GLOW) === */
+
 .kpi-card {
-    background: var(--bg-card);
-    padding: 1.5rem;
+    background: var(--maroon-gradient) !important;
+    padding: 1.75rem;
     border-radius: 12px;
-    border: 2px solid var(--border-pink);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 64, 129, 0.3) !important;
+    box-shadow: var(--shadow-glow);
     text-align: center;
     position: relative;
     overflow: hidden;
-}
-
-.kpi-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--pink-primary), var(--pink-accent));
+    color: white !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .kpi-card:hover {
     transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--pink-primary);
-}
-
-.kpi-primary {
-    border-color: var(--pink-primary);
-}
-
-.kpi-primary::before {
-    height: 4px;
+    box-shadow: 0 8px 32px rgba(255, 64, 129, 0.6);
+    border-color: var(--pink-primary) !important;
 }
 
 .kpi-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 2.75rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.95;
 }
 
 .kpi-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 0.25rem;
-}
-
-.kpi-value {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin: 0.25rem 0;
-    line-height: 1.2;
-}
-
-.kpi-change {
+    color: rgba(255, 255, 255, 0.85) !important;
     font-size: 0.8rem;
     font-weight: 600;
-    margin-top: 0.25rem;
-}
-
-.kpi-change.positive {
-    color: var(--success);
-}
-
-.kpi-change.negative {
-    color: var(--danger);
-}
-
-.kpi-change.neutral {
-    color: var(--text-muted);
-}
-
-/* Status Cards */
-.status-card {
-    background: var(--bg-card);
-    padding: 1.25rem;
-    border-radius: 12px;
-    border: 2px solid var(--border-pink);
-    text-align: center;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
-}
-
-.status-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-}
-
-.status-icon {
-    font-size: 2rem;
-    color: var(--pink-primary);
-    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     margin-bottom: 0.5rem;
 }
 
-.status-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
+.kpi-value {
+    color: #FFFFFF !important;
+    font-size: 2.5rem;
     font-weight: 700;
+    margin: 0.5rem 0;
+    line-height: 1.1;
+}
+
+.kpi-change {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.kpi-change.positive {
+    color: var(--success) !important;
+}
+
+.kpi-change.negative {
+    color: var(--danger) !important;
+}
+
+.kpi-change.neutral {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+
+/* === 7. BUTTONS (GRADIENT PINK) === */
+
+.stButton>button {
+    background: var(--pink-gradient) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px;
+    padding: 0.65rem 1.75rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease;
+}
+
+.stButton>button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+    filter: brightness(1.15);
+}
+
+.stButton>button:active {
+    transform: translateY(0);
+}
+
+
+/* === 8. TABLES / DATAFRAME (HIGH CONTRAST) === */
+
+[data-testid="stDataFrame"],
+.dataframe {
+    border: 1px solid var(--border-medium) !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+    background-color: var(--bg-card);
+}
+
+/* Header Tabel */
+.dataframe thead tr th {
+    background: var(--pink-gradient) !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+    padding: 0.875rem !important;
+    border-bottom: 2px solid var(--pink-dark) !important;
+    font-size: 0.875rem !important;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.25rem;
+    letter-spacing: 0.05em;
 }
 
-.status-value {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--text-primary);
+/* Baris Tabel - Zebra Striping */
+.dataframe tbody tr:nth-of-type(even) {
+    background-color: var(--bg-secondary) !important;
 }
 
-/* ============================================
-   STREAMLIT COMPONENTS
-   ============================================ */
+.dataframe tbody tr:nth-of-type(odd) {
+    background-color: var(--bg-card) !important;
+}
 
-/* Metrics */
+.dataframe tbody tr:hover {
+    background-color: rgba(255, 64, 129, 0.12) !important;
+}
+
+.dataframe td {
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+    padding: 0.875rem !important;
+}
+
+
+/* === 9. METRICS CARDS (WHITE CARD WITH DARK PINK TEXT) === */
+
 [data-testid="stMetric"] {
-    background: var(--bg-card) !important;
-    padding: 1.25rem !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid rgba(255, 64, 129, 0.2) !important;
     border-radius: 12px !important;
-    border: 2px solid var(--border-pink) !important;
-    box-shadow: var(--shadow-sm) !important;
-    transition: all 0.3s ease !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.3s ease;
 }
 
 [data-testid="stMetric"]:hover {
-    box-shadow: var(--shadow-md) !important;
-    transform: translateY(-4px) !important;
     border-color: var(--pink-primary) !important;
+    box-shadow: 0 6px 24px rgba(255, 64, 129, 0.4) !important;
+    transform: translateY(-4px);
 }
 
+/* Label (atas) - Dark Gray */
 [data-testid="stMetric"] label {
-    color: var(--text-muted) !important;
-    font-weight: 700 !important;
-    font-size: 0.75rem !important;
+    color: #424242 !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.05em;
 }
 
+/* Value (angka besar) - Dark Pink */
 [data-testid="stMetric"] [data-testid="stMetricValue"] {
-    color: var(--text-primary) !important;
-    font-size: 1.75rem !important;
+    color: #AD1457 !important;
     font-weight: 800 !important;
+    font-size: 2.25rem !important;
+    line-height: 1.2;
 }
 
-/* Filters */
-.stMultiSelect>div,
-.stSelectbox>div {
-    border: 2px solid var(--border-pink) !important;
-    border-radius: 10px !important;
-    background: var(--bg-card) !important;
-    transition: all 0.2s ease !important;
+/* Delta (perubahan +/-) - Tetap sesuai warna success/danger */
+[data-testid="stMetric"] [data-testid="stMetricDelta"] {
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
 }
 
-.stMultiSelect:hover>div,
-.stSelectbox:hover>div {
+/* Delta Positive - Green */
+[data-testid="stMetric"] [data-testid="stMetricDelta"][data-positive="true"] {
+    color: #00C853 !important;
+}
+
+/* Delta Negative - Red */
+[data-testid="stMetric"] [data-testid="stMetricDelta"][data-positive="false"] {
+    color: #D32F2F !important;
+}
+
+
+/* === 10. FILTERS / SELECT BOXES === */
+
+.stMultiSelect>div>div,
+.stSelectbox>div>div {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-medium) !important;
+    border-radius: 6px !important;
+}
+
+.stMultiSelect:hover>div>div,
+.stSelectbox:hover>div>div {
     border-color: var(--pink-primary) !important;
-    box-shadow: var(--shadow-sm);
 }
 
 .stMultiSelect label,
 .stSelectbox label {
     color: var(--text-primary) !important;
-    font-weight: 700 !important;
-    font-size: 0.875rem !important;
-}
-
-/* Buttons */
-.stButton>button {
-    background: linear-gradient(135deg, var(--pink-primary), var(--pink-secondary)) !important;
-    color: var(--text-light) !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 0.65rem 1.75rem !important;
-    font-weight: 700 !important;
-    font-size: 0.9rem !important;
-    transition: all 0.3s ease !important;
-    box-shadow: var(--shadow-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.stButton>button:hover {
-    background: linear-gradient(135deg, var(--pink-dark), var(--pink-primary)) !important;
-    box-shadow: var(--shadow-md) !important;
-    transform: translateY(-2px);
-}
-
-/* Dataframes */
-[data-testid="stDataFrame"],
-.dataframe {
-    border-radius: 10px !important;
-    overflow: hidden !important;
-    box-shadow: var(--shadow-sm) !important;
-    border: 2px solid var(--border-pink) !important;
-}
-
-.dataframe thead tr th {
-    background: linear-gradient(135deg, var(--pink-primary), var(--pink-secondary)) !important;
-    color: var(--text-light) !important;
-    font-weight: 700 !important;
-    padding: 0.875rem !important;
-    border: none !important;
-    font-size: 0.85rem !important;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.dataframe tbody tr:nth-child(even) {
-    background: var(--pink-light) !important;
-}
-
-.dataframe tbody tr:hover {
-    background: rgba(216, 27, 96, 0.08) !important;
-}
-
-.dataframe tbody td {
-    padding: 0.875rem !important;
-    color: var(--text-primary) !important;
     font-weight: 600 !important;
-    border-bottom: 1px solid var(--border-light) !important;
-    font-size: 0.85rem !important;
+    margin-bottom: 0.5rem !important;
 }
 
-/* Alerts */
+
+/* === 11. ALERTS (HIGH CONTRAST) === */
+
 .stAlert {
-    border-radius: 10px !important;
-    border: none !important;
+    border-radius: 8px !important;
     border-left: 4px solid !important;
-    box-shadow: var(--shadow-sm) !important;
-    font-weight: 600 !important;
+    padding: 1rem !important;
+    font-weight: 500 !important;
 }
 
 .stInfo {
-    background: rgba(244, 143, 177, 0.15) !important;
-    border-left-color: var(--pink-accent) !important;
+    background-color: rgba(0, 176, 255, 0.1) !important;
+    color: #4FC3F7 !important;
+    border-left-color: var(--info) !important;
 }
 
 .stSuccess {
-    background: rgba(76, 175, 80, 0.15) !important;
+    background-color: rgba(0, 230, 118, 0.1) !important;
+    color: #69F0AE !important;
     border-left-color: var(--success) !important;
 }
 
 .stWarning {
-    background: rgba(255, 152, 0, 0.15) !important;
+    background-color: rgba(255, 214, 0, 0.1) !important;
+    color: #FFE57F !important;
     border-left-color: var(--warning) !important;
 }
 
 .stError {
-    background: rgba(244, 67, 54, 0.15) !important;
+    background-color: rgba(255, 23, 68, 0.1) !important;
+    color: #FF6B9D !important;
     border-left-color: var(--danger) !important;
 }
 
-/* ============================================
-   FOOTER
-   ============================================ */
 
-.footer {
-    text-align: center;
-    padding: 1.5rem 0;
-    margin-top: 2.5rem;
-    border-top: 2px solid var(--pink-light);
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    font-weight: 600;
+/* === 12. EXPANDER === */
+
+.streamlit-expanderHeader {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-medium) !important;
+    border-radius: 8px !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    padding: 0.875rem 1rem !important;
 }
 
-/* ============================================
-   SCROLLBAR
-   ============================================ */
+.streamlit-expanderHeader:hover {
+    background-color: var(--bg-hover) !important;
+    border-color: var(--pink-primary) !important;
+}
+
+
+/* === 13. SCROLLBAR === */
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--pink-light);
-    border-radius: 8px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--pink-primary), var(--pink-secondary));
-    border-radius: 8px;
-    border: 2px solid var(--pink-light);
+    background: linear-gradient(180deg, var(--pink-primary), var(--pink-dark));
+    border-radius: 6px;
+    border: 2px solid var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--pink-dark);
+    background: var(--pink-secondary);
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
 
-@media (max-width: 768px) {
-    .main .block-container {
-        padding: 1.5rem 1rem !important;
-    }
+/* === 14. CHARTS (PLOTLY DARK MODE) === */
 
-    .page-title {
-        font-size: 1.75rem !important;
-    }
-
-    .kpi-value {
-        font-size: 1.5rem;
-    }
+.js-plotly-plot {
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-/* ============================================
-   ACCESSIBILITY
-   ============================================ */
+.js-plotly-plot .plotly .bg {
+    fill: var(--bg-card) !important;
+}
+
+.js-plotly-plot .plotly text {
+    fill: var(--text-secondary) !important;
+}
+
+
+/* === 15. FOOTER === */
+
+.footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+
+/* === 16. ACCESSIBILITY === */
 
 *:focus {
     outline: 2px solid var(--pink-primary) !important;
@@ -542,10 +565,12 @@ body {
 
 ::selection {
     background: var(--pink-primary);
-    color: var(--text-light);
+    color: white;
 }
 
-/* Hide Streamlit Branding */
+
+/* === 17. HIDE STREAMLIT BRANDING === */
+
 #MainMenu {
     visibility: hidden;
 }
@@ -556,4 +581,52 @@ footer {
 
 header {
     visibility: hidden;
+}
+
+.stDeployButton {
+    display: none;
+}
+
+
+/* === 18. RESPONSIVE === */
+
+@media (max-width: 768px) {
+    .main .block-container {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .page-title {
+        font-size: 2rem !important;
+    }
+
+    .kpi-value {
+        font-size: 2rem;
+    }
+}
+
+/* ============================================================
+   FIX: OVERRIDE STREAMLIT DEFAULT LIGHT THEME CONTAINER
+   Mengatasi masalah class "st-emotion-cache" yang memaksa putih
+   ============================================================ */
+
+.stApp {
+    /* Paksa background utama jadi Hitam Gelap */
+    background-color: #0E1117 !important;
+
+    /* UBAH BAGIAN COLOR YANG ANDA MAKSUD JADI PUTIH */
+    color: #FFFFFF !important;
+
+    /* Ubah skema warna browser jadi gelap (untuk scrollbar & input default) */
+    color-scheme: dark !important;
+}
+
+/* Pastikan header toolbar (pojok kanan atas) juga menyesuaikan */
+[data-testid="stHeader"] {
+    background-color: transparent !important;
+    color: #FFFFFF !important;
+}
+
+/* Pastikan background konten utama transparan agar tidak menutupi .stApp */
+.main {
+    background-color: transparent !important;
 }

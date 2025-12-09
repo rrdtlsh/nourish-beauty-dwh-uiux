@@ -6,29 +6,37 @@ UAS Business Intelligence 2025
 
 import os
 import logging
+from dotenv import load_dotenv # Import wajib untuk membaca .env
 from sqlalchemy import create_engine, text
-from sqlalchemy.pool import QueuePool
 import psycopg2
 
-# ✅ MATIKAN SQLALCHEMY LOGGING
+# 1. Load file .env (agar saat jalan manual di laptop tetap terbaca)
+load_dotenv()
+
+# ✅ MATIKAN SQLALCHEMY LOGGING (Sesuai request Anda)
 logging.getLogger('sqlalchemy').setLevel(logging.ERROR)
 logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
 logging.getLogger('sqlalchemy.pool').setLevel(logging.ERROR)
 logging.getLogger('sqlalchemy.dialects').setLevel(logging.ERROR)
 logging.getLogger('sqlalchemy.orm').setLevel(logging.ERROR)
 
-# Database Configuration
+# 2. Database Configuration (DINAMIS - Bisa baca dari Docker atau .env)
+# Jika dijalankan via Docker, dia akan ambil 'DB_HOST' dari docker-compose (host.docker.internal)
+# Jika dijalankan manual, dia akan ambil default 'localhost'
 DB_CONFIG = {
-    'host': 'localhost',
-    'port': '5432',
-    'database': 'dw_nourish',
-    'user': 'postgres',
-    'password': 'rute'  # GANTI dengan password PostgreSQL Anda!
+    'host': os.getenv('DB_HOST', 'localhost'),
+    'port': os.getenv('DB_PORT', '5432'),
+    'database': os.getenv('DB_NAME', 'dw_nourish'),
+    'user': os.getenv('DB_USER', 'postgres'),
+    'password': os.getenv('DB_PASSWORD', 'rute') 
 }
 
-# SQLAlchemy Connection String
-DATABASE_URL = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
-
+# 3. SQLAlchemy Connection String
+# Priority: Ambil full URI dari environment (Docker), jika tidak ada, rakit sendiri
+DATABASE_URL = os.getenv(
+    'SQLALCHEMY_DATABASE_URI',
+    f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
+)
 
 def get_engine():
     """Get SQLAlchemy engine WITHOUT any logging"""
@@ -52,6 +60,7 @@ def get_engine():
 def get_connection():
     """Create raw psycopg2 connection"""
     try:
+        # Menggunakan config dinamis yang sudah diload di atas
         conn = psycopg2.connect(
             host=DB_CONFIG['host'],
             port=DB_CONFIG['port'],
@@ -70,6 +79,9 @@ def test_connection():
     try:
         engine = get_engine()
         
+        # Print info host agar kita tahu sedang connect kemana
+        print(f"Connecting to Host: {DB_CONFIG['host']}...")
+
         with engine.connect() as conn:
             result = conn.execute(text("SELECT version()"))
             version = result.fetchone()[0]
