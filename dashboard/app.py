@@ -266,17 +266,27 @@ with tab1:
     metrics = load_summary_metrics()
     
     # Debug Info
+    metrics = load_summary_metrics()
+    
+    # ✅ FIX: Safe handling untuk avoid None error
     with st.expander("🔍 Debug Info (Click to expand)"):
-        st.code(f"""
-        RAW DATA FROM DATABASE:
-        - Total Revenue (raw): Rp {metrics['total_revenue']:,.2f}
-        - Total Revenue / 1M: Rp {metrics['total_revenue']/1e6:.2f}M
-        - Total Transactions: {metrics['total_transactions']:,}
-        - Avg per Transaction: Rp {metrics['total_revenue']/metrics['total_transactions']:,.2f}
-        
-        NOTE: Original CSV data is in USD. 
-        Multiply by 15,000 for IDR conversion.
-        """)
+        if metrics is not None:
+            total_rev = float(metrics.get('total_revenue') or 0)
+            total_trans = int(metrics.get('total_transactions') or 0)
+            avg_trans = (total_rev / total_trans) if total_trans > 0 else 0
+            
+            st.code(f"""
+RAW DATA FROM DATABASE:
+- Total Revenue (raw): Rp {total_rev:,.2f}
+- Total Revenue / 1M: Rp {total_rev/1e6:.2f}M
+- Total Transactions: {total_trans:,}
+- Avg per Transaction: Rp {avg_trans:,.2f}
+
+NOTE: fact_sales is currently empty (0 rows).
+      Need to fix sales data loading.
+            """)
+        else:
+            st.warning("⚠️ Metrics unavailable - Database connection issue")
     
     # KPI Cards
     col1, col2, col3, col4 = st.columns(4)

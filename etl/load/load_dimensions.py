@@ -145,15 +145,15 @@ def load_dim_employee():
     """Load employee dimension from staging_hr"""
     try:
         logger.info("Loading dim_employee...")
-        
         engine = get_engine()
         
         with engine.connect() as conn:
-            # ✅ TRUNCATE TABLE SEBELUM LOAD (Clear old data)
+            # TRUNCATE
             conn.execute(text("TRUNCATE TABLE dim_employee RESTART IDENTITY CASCADE"))
             conn.commit()
             logger.info("   Truncated dim_employee table")
             
+            # GET DATA (managerid sudah INTEGER setelah ALTER TABLE di pgAdmin)
             query = text("""
             SELECT DISTINCT
                 empid as emp_id,
@@ -164,14 +164,15 @@ def load_dim_employee():
                 managerid as manager_id,
                 sex,
                 maritaldesc as marital_desc,
-                dob,
-                EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DATE))) as age,
-                dateofhire as date_of_hire,
+                CASE WHEN dob IS NULL OR TRIM(dob) = '' THEN NULL ELSE dob::DATE END as dob,
+                CASE 
+                    WHEN dob IS NULL OR TRIM(dob) = '' THEN 0
+                    ELSE EXTRACT(YEAR FROM age(dob::DATE))
+                END as age,
+                dateofhire::DATE as date_of_hire,
                 employmentstatus as employment_status,
                 salary,
-                CASE WHEN employmentstatus = 'Active' THEN TRUE ELSE FALSE END as is_active,
-                NOW() as created_date,
-                NOW() as updated_date
+                CASE WHEN employmentstatus = 'Active' THEN TRUE ELSE FALSE END as is_active
             FROM staging_hr
             WHERE empid IS NOT NULL
             """)
@@ -179,15 +180,15 @@ def load_dim_employee():
             df = pd.read_sql(query, conn)
             
             if len(df) > 0:
-                # ✅ Load dengan chunking untuk avoid parameter limit
-                chunk_size = 50
-                total_loaded = 0
+                df['created_date'] = datetime.now()
+                df['updated_date'] = datetime.now()
                 
+                # Batch insert dengan chunk kecil
+                chunk_size = 25
                 for i in range(0, len(df), chunk_size):
                     chunk = df.iloc[i:i+chunk_size]
                     chunk.to_sql('dim_employee', conn, if_exists='append', index=False, method='multi')
-                    total_loaded += len(chunk)
-                    logger.info(f"   Loaded chunk {i//chunk_size + 1}: {len(chunk)} rows (Total: {total_loaded}/{len(df)})")
+                    logger.info(f"   Loaded {min(i+chunk_size, len(df))}/{len(df)} employees...")
                 
                 conn.commit()
                 logger.info(f"[OK] Successfully loaded {len(df)} employees to dim_employee")
@@ -287,16 +288,16 @@ def load_dim_tanggal():
         engine = get_engine()
         
         with engine.connect() as conn:
-            # ✅ Get min/max dates from ALL staging tables
+            # 1. Get min/max dates from ALL staging tables
             query_dates = text("""
             WITH all_dates AS (
-                SELECT dt_customer::DATE as tanggal FROM staging_marketing WHERE dt_customer IS NOT NULL
+                SELECT CAST(dt_customer AS DATE) as tanggal FROM staging_marketing WHERE dt_customer IS NOT NULL
                 UNION
-                SELECT tanggal_transaksi::DATE FROM staging_sales WHERE tanggal_transaksi IS NOT NULL
+                SELECT CAST(tanggal AS DATE) FROM staging_sales WHERE tanggal IS NOT NULL
                 UNION
-                SELECT dateofhire::DATE FROM staging_hr WHERE dateofhire IS NOT NULL
+                SELECT CAST(dateofhire AS DATE) FROM staging_hr WHERE dateofhire IS NOT NULL
                 UNION
-                SELECT lastperformancereview_date::DATE FROM staging_hr WHERE lastperformancereview_date IS NOT NULL
+                SELECT CAST(lastperformancereview_date AS DATE) FROM staging_hr WHERE lastperformancereview_date IS NOT NULL
             )
             SELECT 
                 MIN(tanggal) as min_date,
@@ -305,21 +306,39 @@ def load_dim_tanggal():
             """)
             
             result = conn.execute(query_dates).fetchone()
-            min_date = result[0]
-            max_date = result[1]
+            
+            # Handle empty result
+            if result is None or result[0] is None:
+                min_date = '2020-01-01'
+                max_date = '2030-12-31'
+            else:
+                min_date = result[0]
+                max_date = result[1]
             
             logger.info(f"   Date range: {min_date} to {max_date}")
             
-            # ✅ TRUNCATE and regenerate dim_tanggal
-            conn.execute(text("TRUNCATE TABLE dim_tanggal RESTART IDENTITY CASCADE"))
-            conn.commit()
-            logger.info("   Truncated dim_tanggal table")
+            # ✅ RECREATE TABLE (Hapus dan Buat Ulang dengan Struktur Benar)
+            # Ini memastikan kolom 'kuartal' pasti ada
+            logger.info("   Recreating dim_tanggal table schema...")
+            conn.execute(text("DROP TABLE IF EXISTS dim_tanggal CASCADE"))
+            conn.execute(text("""
+                CREATE TABLE dim_tanggal (
+                    tanggal_key SERIAL PRIMARY KEY,
+                    tanggal DATE UNIQUE,
+                    hari INT,
+                    bulan INT,
+                    tahun INT,
+                    kuartal INT,  -- Kolom ini yang sebelumnya error (hilang)
+                    nama_hari VARCHAR(20),
+                    nama_bulan VARCHAR(20)
+                )
+            """))
             
-            # Generate dates dari min_date - 1 year sampai max_date + 1 year
+            # 3. Generate dates (Menggunakan CAST agar aman)
             query_generate = text("""
             INSERT INTO dim_tanggal (tanggal, hari, bulan, tahun, kuartal, nama_hari, nama_bulan)
             SELECT 
-                d::DATE as tanggal,
+                CAST(d AS DATE) as tanggal,
                 EXTRACT(DAY FROM d) as hari,
                 EXTRACT(MONTH FROM d) as bulan,
                 EXTRACT(YEAR FROM d) as tahun,
@@ -327,14 +346,14 @@ def load_dim_tanggal():
                 TO_CHAR(d, 'Day') as nama_hari,
                 TO_CHAR(d, 'Month') as nama_bulan
             FROM generate_series(
-                :min_date::DATE - INTERVAL '1 year',
-                :max_date::DATE + INTERVAL '1 year',
+                CAST(:min_date AS DATE) - INTERVAL '1 year',
+                CAST(:max_date AS DATE) + INTERVAL '1 year',
                 '1 day'::INTERVAL
             ) d
             ON CONFLICT (tanggal) DO NOTHING;
             """)
             
-            result = conn.execute(query_generate, {
+            conn.execute(query_generate, {
                 'min_date': min_date,
                 'max_date': max_date
             })

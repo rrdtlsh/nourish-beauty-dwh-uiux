@@ -1,0 +1,429 @@
+2025-12-10 21:02:50,104 - __main__ - INFO - ================================================================================
+2025-12-10 21:02:50,104 - __main__ - INFO - NOURISH BEAUTY DATA WAREHOUSE - ETL PIPELINE
+2025-12-10 21:02:50,104 - __main__ - INFO -    Author: Raudatul Sholehah - 2310817220002
+2025-12-10 21:02:50,105 - __main__ - INFO -    Date: 2025-12-10 21:02:50
+2025-12-10 21:02:50,105 - __main__ - INFO - ================================================================================
+2025-12-10 21:02:50,106 - __main__ - INFO - 
+2025-12-10 21:02:50,106 - __main__ - INFO - STEP 1: Testing Database Connection
+2025-12-10 21:02:50,106 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-10 21:02:50,620 - __main__ - INFO - 
+2025-12-10 21:02:50,621 - __main__ - INFO - STEP 2: EXTRACT PHASE
+2025-12-10 21:02:50,621 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-10 21:02:51,272 - __main__ - INFO - Extracting Sales Data...
+2025-12-10 21:02:51,272 - etl.extract.extract_sales - INFO - Starting sales data extraction...
+2025-12-10 21:02:51,273 - etl.extract.extract_sales - INFO - Reading file: /app/data/raw/SuperMarket-Analysis-penjualan.csv
+2025-12-10 21:02:51,405 - etl.extract.extract_sales - INFO - [OK] Loaded 1000 rows from SuperMarket-Analysis-penjualan.csv
+2025-12-10 21:02:51,405 - etl.extract.extract_sales - INFO - Applying transformations...
+2025-12-10 21:02:51,405 - etl.transform.transform_sales - INFO - Applying 40 transformation rules to sales data...
+2025-12-10 21:02:51,406 - etl.transform.transform_sales - INFO -    Initial row count: 1000
+2025-12-10 21:02:51,406 - etl.transform.transform_sales - INFO - RULE 0: Pre-cleaning Indonesian number format & USD to IDR conversion...
+2025-12-10 21:02:51,415 - etl.transform.transform_sales - INFO -    ✓ Detected USD format (avg: $307.59)
+2025-12-10 21:02:51,417 - etl.transform.transform_sales - INFO -    harga_satuan: 74.69 → Rp 1,120,350
+2025-12-10 21:02:51,418 - etl.transform.transform_sales - INFO -    pajak_5_persen: 261.415 → Rp 3,921,225
+2025-12-10 21:02:51,421 - etl.transform.transform_sales - INFO -    total_penjualan_sebelum_pajak: 522.83 → Rp 7,842,450
+2025-12-10 21:02:51,430 - etl.transform.transform_sales - INFO -    pendapatan_kotor: 261.415 → Rp 3,921,225
+2025-12-10 21:02:51,432 - etl.transform.transform_sales - INFO -    persentase_gross_margin: 4761904762.00% (kept as percentage)
+2025-12-10 21:02:51,432 - etl.transform.transform_sales - INFO - RULE 1-5: Data Type Conversion
+2025-12-10 21:02:51,440 - etl.transform.transform_sales - INFO - RULE 6-10: Handle Missing Values
+2025-12-10 21:02:51,449 - etl.transform.transform_sales - INFO - RULE 11-15: Data Cleaning
+2025-12-10 21:02:51,458 - etl.transform.transform_sales - INFO - RULE 16-20: Standardization
+2025-12-10 21:02:51,466 - etl.transform.transform_sales - INFO - RULE 21-25: Calculate Derived Fields
+2025-12-10 21:02:51,474 - etl.transform.transform_sales - INFO - RULE 26-30: Validation & Quality Checks
+2025-12-10 21:02:51,484 - etl.transform.transform_sales - INFO - RULE 31-35: Business Logic & Categorization
+2025-12-10 21:02:51,500 - etl.transform.transform_sales - INFO - RULE 36-40: Final Cleaning & Outlier Removal
+2025-12-10 21:02:51,511 - etl.transform.transform_sales - INFO - [OK] Transformation complete!
+2025-12-10 21:02:51,511 - etl.transform.transform_sales - INFO -    Initial rows: 1000
+2025-12-10 21:02:51,512 - etl.transform.transform_sales - INFO -    Final rows: 991
+2025-12-10 21:02:51,512 - etl.transform.transform_sales - INFO -    Removed: 9 (0.9%)
+2025-12-10 21:02:51,517 - etl.transform.transform_sales - INFO -    Retention rate: 99.1%
+2025-12-10 21:02:51,518 - etl.transform.transform_sales - INFO -    Currency converted: USD → IDR (rate: 15,000)
+2025-12-10 21:02:51,520 - etl.transform.transform_sales - INFO - 
+   SUMMARY STATISTICS (in IDR):
+2025-12-10 21:02:51,520 - etl.transform.transform_sales - INFO -    - Total Revenue: Rp 4,502,404,650
+2025-12-10 21:02:51,520 - etl.transform.transform_sales - INFO -    - Avg Transaction: Rp 4,543,294
+2025-12-10 21:02:51,521 - etl.transform.transform_sales - INFO -    - Min Transaction: Rp 152,550
+2025-12-10 21:02:51,522 - etl.transform.transform_sales - INFO -    - Max Transaction: Rp 14,895,000
+2025-12-10 21:02:51,616 - etl.extract.extract_sales - INFO - [OK] Saved to staging file: /app/data/staging/staging_sales.csv
+2025-12-10 21:02:51,617 - etl.extract.extract_sales - INFO - [OK] Extraction complete: 991 records ready
+2025-12-10 21:02:51,619 - etl.extract.extract_sales - INFO - 
+Loading sales data to staging_sales table...
+2025-12-10 21:02:51,620 - etl.extract.extract_sales - INFO -    Records to load: 991
+2025-12-10 21:02:51,634 - etl.extract.extract_sales - INFO -    Truncating staging_sales table...
+2025-12-10 21:02:51,777 - etl.extract.extract_sales - INFO -    Original shape: (991, 17)
+2025-12-10 21:02:51,778 - etl.extract.extract_sales - INFO -    Original columns: ['id_invoice', 'cabang', 'kota', 'tipe_customer', 'jenis_kelamin', 'kategori_produk', 'harga_satuan', 'jumlah', 'pajak_5_persen', 'tanggal', 'waktu', 'metode_pembayaran', 'total_penjualan_sebelum_pajak', 'persentase_gross_margin', 'pendapatan_kotor', 'rating', 'load_timestamp']
+2025-12-10 21:02:51,782 - etl.extract.extract_sales - INFO -    Clean shape: (991, 17)
+2025-12-10 21:02:51,782 - etl.extract.extract_sales - INFO -    Clean columns: ['id_invoice', 'cabang', 'kota', 'tipe_customer', 'jenis_kelamin', 'kategori_produk', 'harga_satuan', 'jumlah', 'pajak_5_persen', 'tanggal', 'waktu', 'metode_pembayaran', 'total_penjualan_sebelum_pajak', 'persentase_gross_margin', 'pendapatan_kotor', 'rating', 'load_timestamp']
+2025-12-10 21:02:51,791 - etl.extract.extract_sales - INFO -    Loading data in 10 chunks of 100 rows...
+2025-12-10 21:02:52,065 - etl.extract.extract_sales - INFO -    ✓ Chunk 1/10 loaded (100 rows, total: 100)
+2025-12-10 21:02:52,131 - etl.extract.extract_sales - INFO -    ✓ Chunk 2/10 loaded (100 rows, total: 200)
+2025-12-10 21:02:52,191 - etl.extract.extract_sales - INFO -    ✓ Chunk 3/10 loaded (100 rows, total: 300)
+2025-12-10 21:02:52,274 - etl.extract.extract_sales - INFO -    ✓ Chunk 4/10 loaded (100 rows, total: 400)
+2025-12-10 21:02:52,326 - etl.extract.extract_sales - INFO -    ✓ Chunk 5/10 loaded (100 rows, total: 500)
+2025-12-10 21:02:52,399 - etl.extract.extract_sales - INFO -    ✓ Chunk 6/10 loaded (100 rows, total: 600)
+2025-12-10 21:02:52,480 - etl.extract.extract_sales - INFO -    ✓ Chunk 7/10 loaded (100 rows, total: 700)
+2025-12-10 21:02:52,625 - etl.extract.extract_sales - INFO -    ✓ Chunk 8/10 loaded (100 rows, total: 800)
+2025-12-10 21:02:52,829 - etl.extract.extract_sales - INFO -    ✓ Chunk 9/10 loaded (100 rows, total: 900)
+2025-12-10 21:02:52,899 - etl.extract.extract_sales - INFO -    ✓ Chunk 10/10 loaded (91 rows, total: 991)
+2025-12-10 21:02:52,903 - etl.extract.extract_sales - INFO - [OK] Successfully loaded 991 rows to staging_sales
+2025-12-10 21:02:52,910 - etl.extract.extract_sales - INFO - [OK] Verified staging_sales row count: 991
+2025-12-10 21:02:52,923 - etl.extract.extract_sales - INFO - [OK] Stats: Rows=991, Avg=Rp 4,543,294, Min=Rp 152,550, Max=Rp 14,895,000
+2025-12-10 21:02:52,933 - __main__ - INFO - Extracting HR Data...
+2025-12-10 21:02:52,934 - etl.extract.extract_hr - INFO - Starting HR data extraction...
+2025-12-10 21:02:52,935 - etl.extract.extract_hr - INFO - Reading file: /app/data/raw/HRDataset.csv
+2025-12-10 21:02:52,967 - etl.extract.extract_hr - INFO - [OK] Loaded 311 rows from HRDataset.csv
+2025-12-10 21:02:52,967 - etl.extract.extract_hr - INFO -    Columns: 36
+2025-12-10 21:02:52,969 - etl.extract.extract_hr - INFO -    Converting date column: dob
+2025-12-10 21:02:52,973 - etl.extract.extract_hr - INFO -    Converting date column: dateofhire
+2025-12-10 21:02:52,982 - etl.extract.extract_hr - INFO -    Converting date column: dateoftermination
+2025-12-10 21:02:52,985 - etl.extract.extract_hr - INFO -    Converting date column: lastperformancereview_date
+2025-12-10 21:02:53,021 - etl.extract.extract_hr - INFO - [OK] Saved to staging file: /app/data/staging/staging_hr.csv
+2025-12-10 21:02:53,022 - etl.extract.extract_hr - INFO - [OK] Extraction complete: 311 records ready
+2025-12-10 21:02:53,022 - etl.extract.extract_hr - INFO - Loading HR data to staging_hr table...
+2025-12-10 21:02:53,022 - etl.extract.extract_hr - INFO -    Records to load: 311
+2025-12-10 21:02:53,024 - etl.extract.extract_hr - INFO -    Truncating staging_hr table...
+2025-12-10 21:02:53,086 - etl.extract.extract_hr - INFO -    Loading rows individually...
+2025-12-10 21:02:54,056 - etl.extract.extract_hr - INFO -    Progress: 50/311 rows loaded
+2025-12-10 21:02:54,985 - etl.extract.extract_hr - INFO -    Progress: 100/311 rows loaded
+2025-12-10 21:02:56,337 - etl.extract.extract_hr - INFO -    Progress: 150/311 rows loaded
+2025-12-10 21:02:57,409 - etl.extract.extract_hr - INFO -    Progress: 200/311 rows loaded
+2025-12-10 21:02:58,148 - etl.extract.extract_hr - INFO -    Progress: 250/311 rows loaded
+2025-12-10 21:02:58,939 - etl.extract.extract_hr - INFO -    Progress: 300/311 rows loaded
+2025-12-10 21:02:59,096 - etl.extract.extract_hr - INFO -    Progress: 311/311 rows loaded
+2025-12-10 21:02:59,097 - etl.extract.extract_hr - INFO - [OK] Successfully loaded 311 rows
+2025-12-10 21:02:59,102 - etl.extract.extract_hr - INFO - [OK] Verified row count: 311
+2025-12-10 21:02:59,103 - __main__ - INFO - Extracting Marketing Data...
+2025-12-10 21:02:59,103 - etl.extract.extract_marketing - INFO - Starting marketing data extraction...
+2025-12-10 21:02:59,104 - etl.extract.extract_marketing - INFO - Reading file: /app/data/raw/marketing_campaign.csv
+2025-12-10 21:02:59,104 - etl.extract.extract_marketing - INFO -    Trying delimiter: '	'
+2025-12-10 21:02:59,119 - etl.extract.extract_marketing - WARNING -    Failed: only 1 columns detected
+2025-12-10 21:02:59,119 - etl.extract.extract_marketing - INFO -    Trying delimiter: ';'
+2025-12-10 21:02:59,154 - etl.extract.extract_marketing - INFO -    [OK] Successfully read with delimiter ';'
+2025-12-10 21:02:59,155 - etl.extract.extract_marketing - INFO -    Columns detected: 29
+2025-12-10 21:02:59,155 - etl.extract.extract_marketing - INFO - [OK] Loaded 1000 rows from marketing_campaign.csv
+2025-12-10 21:02:59,156 - etl.extract.extract_marketing - INFO -    Columns: ['ID', 'Year_Birth', 'Education', 'Marital_Status', 'Income']... (29 total)
+2025-12-10 21:02:59,158 - etl.extract.extract_marketing - INFO -    Converting date column: dt_customer
+2025-12-10 21:02:59,203 - etl.extract.extract_marketing - INFO - [OK] Saved to staging file: /app/data/staging/staging_marketing.csv
+2025-12-10 21:02:59,204 - etl.extract.extract_marketing - INFO - [OK] Extraction complete: 1000 records ready
+2025-12-10 21:02:59,204 - etl.extract.extract_marketing - INFO - Loading marketing data to staging_marketing table...
+2025-12-10 21:02:59,204 - etl.extract.extract_marketing - INFO -    Records to load: 1000
+2025-12-10 21:02:59,205 - etl.extract.extract_marketing - INFO -    Dropping and recreating staging_marketing table...
+2025-12-10 21:02:59,287 - etl.extract.extract_marketing - INFO -    Loading data with auto-schema detection...
+2025-12-10 21:02:59,892 - etl.extract.extract_marketing - INFO - [OK] Successfully loaded 1000 rows
+2025-12-10 21:02:59,897 - etl.extract.extract_marketing - INFO - [OK] Verified row count: 1000
+2025-12-10 21:02:59,899 - __main__ - INFO - [OK] Extract phase completed!
+2025-12-10 21:02:59,899 - __main__ - INFO - 
+2025-12-10 21:02:59,899 - __main__ - INFO - STEP 3: TRANSFORM PHASE
+2025-12-10 21:02:59,900 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-10 21:02:59,900 - __main__ - INFO - Transformation rules will be applied during load phase
+2025-12-10 21:02:59,900 - __main__ - INFO - [OK] 40 transformation rules ready
+2025-12-10 21:02:59,901 - __main__ - INFO - 
+2025-12-10 21:02:59,901 - __main__ - INFO - STEP 4: LOAD DIMENSIONS
+2025-12-10 21:02:59,901 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-10 21:02:59,906 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-10 21:02:59,906 - etl.load.load_dimensions - INFO - STARTING DIMENSION LOAD PROCESS
+2025-12-10 21:02:59,906 - etl.load.load_dimensions - INFO - ======================================================================
+2025-12-10 21:02:59,906 - etl.load.load_dimensions - INFO - Loading dim_produk...
+2025-12-10 21:03:00,041 - etl.load.load_dimensions - INFO - [OK] Loaded 6 products to dim_produk
+2025-12-10 21:03:00,042 - etl.load.load_dimensions - INFO - Loading dim_customer...
+2025-12-10 21:03:00,212 - etl.load.load_dimensions - INFO -    Truncated dim_customer table
+2025-12-10 21:03:00,273 - etl.load.load_dimensions - INFO -    Loaded chunk 1: 50 rows (Total: 50/1000)
+2025-12-10 21:03:00,293 - etl.load.load_dimensions - INFO -    Loaded chunk 2: 50 rows (Total: 100/1000)
+2025-12-10 21:03:00,323 - etl.load.load_dimensions - INFO -    Loaded chunk 3: 50 rows (Total: 150/1000)
+2025-12-10 21:03:00,351 - etl.load.load_dimensions - INFO -    Loaded chunk 4: 50 rows (Total: 200/1000)
+2025-12-10 21:03:00,380 - etl.load.load_dimensions - INFO -    Loaded chunk 5: 50 rows (Total: 250/1000)
+2025-12-10 21:03:00,425 - etl.load.load_dimensions - INFO -    Loaded chunk 6: 50 rows (Total: 300/1000)
+2025-12-10 21:03:00,482 - etl.load.load_dimensions - INFO -    Loaded chunk 7: 50 rows (Total: 350/1000)
+2025-12-10 21:03:00,506 - etl.load.load_dimensions - INFO -    Loaded chunk 8: 50 rows (Total: 400/1000)
+2025-12-10 21:03:00,522 - etl.load.load_dimensions - INFO -    Loaded chunk 9: 50 rows (Total: 450/1000)
+2025-12-10 21:03:00,539 - etl.load.load_dimensions - INFO -    Loaded chunk 10: 50 rows (Total: 500/1000)
+2025-12-10 21:03:00,556 - etl.load.load_dimensions - INFO -    Loaded chunk 11: 50 rows (Total: 550/1000)
+2025-12-10 21:03:00,573 - etl.load.load_dimensions - INFO -    Loaded chunk 12: 50 rows (Total: 600/1000)
+2025-12-10 21:03:00,590 - etl.load.load_dimensions - INFO -    Loaded chunk 13: 50 rows (Total: 650/1000)
+2025-12-10 21:03:00,606 - etl.load.load_dimensions - INFO -    Loaded chunk 14: 50 rows (Total: 700/1000)
+2025-12-10 21:03:00,624 - etl.load.load_dimensions - INFO -    Loaded chunk 15: 50 rows (Total: 750/1000)
+2025-12-10 21:03:00,641 - etl.load.load_dimensions - INFO -    Loaded chunk 16: 50 rows (Total: 800/1000)
+2025-12-10 21:03:00,660 - etl.load.load_dimensions - INFO -    Loaded chunk 17: 50 rows (Total: 850/1000)
+2025-12-10 21:03:00,679 - etl.load.load_dimensions - INFO -    Loaded chunk 18: 50 rows (Total: 900/1000)
+2025-12-10 21:03:00,699 - etl.load.load_dimensions - INFO -    Loaded chunk 19: 50 rows (Total: 950/1000)
+2025-12-10 21:03:00,718 - etl.load.load_dimensions - INFO -    Loaded chunk 20: 50 rows (Total: 1000/1000)
+2025-12-10 21:03:00,720 - etl.load.load_dimensions - INFO - [OK] Successfully loaded 1000 customers to dim_customer
+2025-12-10 21:03:00,722 - etl.load.load_dimensions - INFO - Loading dim_employee...
+2025-12-10 21:03:00,788 - etl.load.load_dimensions - INFO -    Truncated dim_employee table
+2025-12-10 21:03:00,795 - etl.load.load_dimensions - ERROR - [ERROR] Error loading dim_employee: (psycopg2.errors.DatatypeMismatch) COALESCE types text and date cannot be matched
+LINE 12: ...              EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DA...
+                                                              ^
+
+[SQL: 
+            SELECT DISTINCT
+                empid as emp_id,
+                employee_name,
+                position,
+                department,
+                managername as manager_name,
+                managerid as manager_id,
+                sex,
+                maritaldesc as marital_desc,
+                dob,
+                EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DATE))) as age,
+                dateofhire as date_of_hire,
+                employmentstatus as employment_status,
+                salary,
+                CASE WHEN employmentstatus = 'Active' THEN TRUE ELSE FALSE END as is_active,
+                NOW() as created_date,
+                NOW() as updated_date
+            FROM staging_hr
+            WHERE empid IS NOT NULL
+            ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-12-10 21:03:00,803 - etl.load.load_dimensions - ERROR - Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.DatatypeMismatch: COALESCE types text and date cannot be matched
+LINE 12: ...              EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DA...
+                                                              ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/etl/load/load_dimensions.py", line 179, in load_dim_employee
+    df = pd.read_sql(query, conn)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pandas/io/sql.py", line 682, in read_sql
+    return pandas_sql.read_query(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pandas/io/sql.py", line 1776, in read_query
+    result = self.execute(sql, params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pandas/io/sql.py", line 1600, in execute
+    return self.con.execute(sql, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.DatatypeMismatch) COALESCE types text and date cannot be matched
+LINE 12: ...              EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DA...
+                                                              ^
+
+[SQL: 
+            SELECT DISTINCT
+                empid as emp_id,
+                employee_name,
+                position,
+                department,
+                managername as manager_name,
+                managerid as manager_id,
+                sex,
+                maritaldesc as marital_desc,
+                dob,
+                EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DATE))) as age,
+                dateofhire as date_of_hire,
+                employmentstatus as employment_status,
+                salary,
+                CASE WHEN employmentstatus = 'Active' THEN TRUE ELSE FALSE END as is_active,
+                NOW() as created_date,
+                NOW() as updated_date
+            FROM staging_hr
+            WHERE empid IS NOT NULL
+            ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2025-12-10 21:03:00,804 - etl.load.load_dimensions - ERROR - ======================================================================
+2025-12-10 21:03:00,805 - etl.load.load_dimensions - ERROR - [ERROR] DIMENSION LOAD FAILED: (psycopg2.errors.DatatypeMismatch) COALESCE types text and date cannot be matched
+LINE 12: ...              EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DA...
+                                                              ^
+
+[SQL: 
+            SELECT DISTINCT
+                empid as emp_id,
+                employee_name,
+                position,
+                department,
+                managername as manager_name,
+                managerid as manager_id,
+                sex,
+                maritaldesc as marital_desc,
+                dob,
+                EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DATE))) as age,
+                dateofhire as date_of_hire,
+                employmentstatus as employment_status,
+                salary,
+                CASE WHEN employmentstatus = 'Active' THEN TRUE ELSE FALSE END as is_active,
+                NOW() as created_date,
+                NOW() as updated_date
+            FROM staging_hr
+            WHERE empid IS NOT NULL
+            ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-12-10 21:03:00,805 - etl.load.load_dimensions - ERROR - ======================================================================
+2025-12-10 21:03:00,807 - etl.load.load_dimensions - ERROR - Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.DatatypeMismatch: COALESCE types text and date cannot be matched
+LINE 12: ...              EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DA...
+                                                              ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/etl/load/load_dimensions.py", line 259, in load_all_dimensions
+    load_dim_employee()
+  File "/app/etl/load/load_dimensions.py", line 179, in load_dim_employee
+    df = pd.read_sql(query, conn)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pandas/io/sql.py", line 682, in read_sql
+    return pandas_sql.read_query(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pandas/io/sql.py", line 1776, in read_query
+    result = self.execute(sql, params)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pandas/io/sql.py", line 1600, in execute
+    return self.con.execute(sql, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.DatatypeMismatch) COALESCE types text and date cannot be matched
+LINE 12: ...              EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DA...
+                                                              ^
+
+[SQL: 
+            SELECT DISTINCT
+                empid as emp_id,
+                employee_name,
+                position,
+                department,
+                managername as manager_name,
+                managerid as manager_id,
+                sex,
+                maritaldesc as marital_desc,
+                dob,
+                EXTRACT(YEAR FROM age(COALESCE(dob, CURRENT_DATE))) as age,
+                dateofhire as date_of_hire,
+                employmentstatus as employment_status,
+                salary,
+                CASE WHEN employmentstatus = 'Active' THEN TRUE ELSE FALSE END as is_active,
+                NOW() as created_date,
+                NOW() as updated_date
+            FROM staging_hr
+            WHERE empid IS NOT NULL
+            ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2025-12-10 21:03:00,807 - __main__ - INFO - 
+2025-12-10 21:03:00,808 - __main__ - INFO - STEP 5: LOAD FACT TABLES
+2025-12-10 21:03:00,809 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-10 21:03:00,810 - etl.load.load_facts - INFO - ======================================================================
+2025-12-10 21:03:00,811 - etl.load.load_facts - INFO - STARTING FACT TABLES LOAD PROCESS
+2025-12-10 21:03:00,811 - etl.load.load_facts - INFO - ======================================================================
+2025-12-10 21:03:00,812 - etl.load.load_facts - INFO - Loading fact_sales...
+2025-12-10 21:03:01,032 - etl.load.load_facts - INFO - [OK] Loaded 991 rows to fact_sales
+2025-12-10 21:03:01,032 - etl.load.load_facts - INFO - Loading fact_marketing_response...
+2025-12-10 21:03:01,197 - etl.load.load_facts - INFO -    Debug - Marketing: 1000 rows, dates: 2012-08-01 to 2014-06-29
+2025-12-10 21:03:01,198 - etl.load.load_facts - INFO -    Debug - dim_tanggal: 5560 dates, range: 2005-01-09 to 2020-03-30
+2025-12-10 21:03:01,198 - etl.load.load_facts - INFO -    Debug - Matching rows after JOIN: 1000
+2025-12-10 21:03:01,230 - etl.load.load_facts - INFO - [OK] Loaded 1000 rows to fact_marketing_response
+2025-12-10 21:03:01,231 - etl.load.load_facts - INFO - Loading fact_employee_performance...
+2025-12-10 21:03:01,298 - etl.load.load_facts - INFO - [OK] Loaded 0 rows to fact_employee_performance
+2025-12-10 21:03:01,298 - etl.load.load_facts - INFO - Verifying fact tables...
+2025-12-10 21:03:01,400 - etl.load.load_facts - INFO - ======================================================================
+2025-12-10 21:03:01,400 - etl.load.load_facts - INFO - [OK] ALL FACT TABLES LOADED SUCCESSFULLY!
+2025-12-10 21:03:01,400 - etl.load.load_facts - INFO - Total time: 0.59 seconds
+2025-12-10 21:03:01,400 - etl.load.load_facts - INFO - ======================================================================
+2025-12-10 21:03:01,401 - __main__ - INFO - 
+2025-12-10 21:03:01,401 - __main__ - INFO - STEP 6: EXPORT TO DATA LAKE
+2025-12-10 21:03:01,401 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-10 21:03:01,401 - __main__ - INFO - Bronze Layer: Raw files already in data/lake/raw/
+2025-12-10 21:03:01,402 - __main__ - INFO - Exporting to Silver Layer (Processed)...
+2025-12-10 21:03:01,407 - etl.export_to_silver_layer - INFO -   → cleaned_sales.parquet
+2025-12-10 21:03:01,645 - etl.export_to_silver_layer - INFO -      Exported 991 rows
+2025-12-10 21:03:01,645 - etl.export_to_silver_layer - INFO -   → cleaned_hr.parquet
+2025-12-10 21:03:01,709 - etl.export_to_silver_layer - INFO -      Exported 311 rows
+2025-12-10 21:03:01,710 - etl.export_to_silver_layer - INFO -   → cleaned_marketing.parquet
+2025-12-10 21:03:01,777 - etl.export_to_silver_layer - INFO -      Exported 1000 rows
+2025-12-10 21:03:01,784 - etl.export_to_silver_layer - INFO - ✅ Silver layer: 3 files created in data/lake/processed
+2025-12-10 21:03:01,784 - __main__ - INFO - ✅ Silver layer export completed
+2025-12-10 21:03:01,784 - __main__ - INFO - Exporting to Gold Layer (Curated)...
+2025-12-10 21:03:01,788 - etl.export_to_gold_layer - INFO -   → sales_metrics_daily.parquet
+2025-12-10 21:03:01,933 - etl.export_to_gold_layer - INFO -      Exported 263 rows
+2025-12-10 21:03:01,934 - etl.export_to_gold_layer - INFO -   → product_performance.parquet
+2025-12-10 21:03:01,995 - etl.export_to_gold_layer - INFO -      Exported 6 rows
+2025-12-10 21:03:01,995 - etl.export_to_gold_layer - INFO -   → branch_performance.parquet
+2025-12-10 21:03:02,028 - etl.export_to_gold_layer - INFO -      Exported 3 rows
+2025-12-10 21:03:02,028 - etl.export_to_gold_layer - INFO -   → payment_analysis.parquet
+2025-12-10 21:03:02,061 - etl.export_to_gold_layer - INFO -      Exported 3 rows
+2025-12-10 21:03:02,062 - etl.export_to_gold_layer - INFO -   → customer_demographics.parquet
+2025-12-10 21:03:02,090 - etl.export_to_gold_layer - INFO -      Exported 4 rows
+2025-12-10 21:03:02,091 - etl.export_to_gold_layer - INFO -   → sales_time_patterns.parquet
+2025-12-10 21:03:02,120 - etl.export_to_gold_layer - INFO -      Exported 11 rows
+2025-12-10 21:03:02,124 - etl.export_to_gold_layer - INFO - ✅ Gold layer: 6 files created in data/lake/curated
+2025-12-10 21:03:02,124 - __main__ - INFO - ✅ Gold layer export completed
+2025-12-10 21:03:02,125 - __main__ - INFO - [OK] Data Lake export phase completed!
+2025-12-10 21:03:02,125 - __main__ - INFO - 
+2025-12-10 21:03:02,126 - __main__ - INFO - STEP 7: DATA VERIFICATION
+2025-12-10 21:03:02,126 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-10 21:03:02,206 - __main__ - INFO - 
+Data Warehouse Row Counts:
+2025-12-10 21:03:02,207 - __main__ - INFO - 
+               table_name  row_count
+               dim_cabang          7
+             dim_customer       1000
+             dim_employee          0
+              dim_payment          6
+               dim_produk         12
+              dim_tanggal       5560
+fact_employee_performance          0
+  fact_marketing_response       1000
+               fact_sales        991
+2025-12-10 21:03:02,207 - __main__ - INFO - 
+Data Lake Status:
+2025-12-10 21:03:02,217 - __main__ - INFO -   Bronze Layer: 3 files
+2025-12-10 21:03:02,217 - __main__ - INFO -   Silver Layer: 3 files
+2025-12-10 21:03:02,218 - __main__ - INFO -   Gold Layer: 6 files
+2025-12-10 21:03:02,219 - __main__ - INFO - 
+2025-12-10 21:03:02,219 - __main__ - INFO - ================================================================================
+2025-12-10 21:03:02,220 - __main__ - INFO - [OK] ETL PIPELINE COMPLETED SUCCESSFULLY!
+2025-12-10 21:03:02,220 - __main__ - INFO - ================================================================================
+2025-12-10 21:03:02,220 - __main__ - INFO - Log file: logs/etl_pipeline_20251210_210250.log
+2025-12-10 21:03:02,220 - __main__ - INFO - Duration: 12.12 seconds
+2025-12-10 21:03:02,221 - __main__ - INFO - Completed at: 2025-12-10 21:03:02
+2025-12-10 21:03:02,221 - __main__ - INFO - ================================================================================

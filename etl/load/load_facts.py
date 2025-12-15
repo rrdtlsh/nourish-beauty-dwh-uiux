@@ -34,71 +34,106 @@ def load_fact_sales():
         
         engine = get_engine()
         
-        # ✅ Check if staging has data dengan text() wrapper
-        check_query = text("SELECT COUNT(*) as count FROM staging_sales")
-        
         with engine.connect() as conn:
-            check_result = pd.read_sql(check_query, conn)
-        
-        if check_result['count'][0] == 0:
-            logger.warning("No data in staging_sales, skipping fact_sales")
-            return
-        
-        # ✅ Complex query with dimension lookups dengan text() wrapper
-        query = text("""
-        INSERT INTO fact_sales (
-            tanggal_key, produk_key, cabang_key, payment_key,
-            id_invoice, tipe_customer, jenis_kelamin,
-            harga_satuan, jumlah, total_penjualan_sebelum_pajak,
-            pajak_5_persen, pendapatan_kotor, persentase_gross_margin,
-            rating, waktu_transaksi, created_date, updated_date
-        )
-        SELECT 
-            dt.tanggal_key,
-            p.produk_key,
-            c.cabang_key,
-            pm.payment_key,
-            s.id_invoice,
-            s.tipe_customer,
-            s.jenis_kelamin,
-            s.harga_satuan,
-            s.jumlah,
-            s.total_penjualan_sebelum_pajak,
-            s.pajak_5_persen,
-            s.pendapatan_kotor,
-            s.persentase_gross_margin,
-            s.rating,
-            s.waktu,
-            NOW(),
-            NOW()
-        FROM staging_sales s
-        INNER JOIN dim_tanggal dt ON s.tanggal = dt.tanggal
-        INNER JOIN dim_produk p ON s.kategori_produk = p.kategori_produk
-        INNER JOIN dim_cabang c ON s.cabang = c.kode_cabang
-        INNER JOIN dim_payment pm ON s.metode_pembayaran = pm.metode_pembayaran
-        WHERE s.id_invoice IS NOT NULL
-        AND s.tanggal IS NOT NULL
-        ON CONFLICT DO NOTHING;
-        """)
-        
-        with engine.connect() as conn:
-            # ✅ Clear existing data first (for idempotency)
+            # ✅ TRUNCATE before insert
             conn.execute(text("TRUNCATE TABLE fact_sales CASCADE"))
             conn.commit()
+            logger.info("   Truncated fact_sales table")
             
-            # Load new data
+            # ✅ CHECK: Sample staging data
+            sample_query = text("""
+            SELECT tanggal, kategori_produk, cabang, metode_pembayaran
+            FROM staging_sales 
+            LIMIT 3
+            """)
+            sample = conn.execute(sample_query).fetchall()
+            logger.info(f"   Debug - Sample data: {sample}")
+            
+            # ✅ INSERT dengan EXACT columns dari schema fact_sales
+            query = text("""
+            INSERT INTO fact_sales (
+                tanggal_key, produk_key, cabang_key, payment_key,
+                id_invoice, tipe_customer, jenis_kelamin,
+                harga_satuan, jumlah, total_penjualan_sebelum_pajak,
+                pajak_5_persen, pendapatan_kotor, persentase_gross_margin,
+                rating, waktu_transaksi, created_date, updated_date
+            )
+            SELECT 
+                dt.tanggal_key,
+                dp.produk_key,
+                dc.cabang_key,
+                dpm.payment_key,
+                ss.id_invoice,
+                ss.tipe_customer,
+                ss.jenis_kelamin,
+                ss.harga_satuan,
+                ss.jumlah,
+                ss.total_penjualan_sebelum_pajak,
+                ss.pajak_5_persen,
+                ss.pendapatan_kotor,
+                ss.persentase_gross_margin,
+                ss.rating,
+                ss.waktu::TIME as waktu_transaksi,
+                NOW() as created_date,
+                NOW() as updated_date
+            FROM staging_sales ss
+            INNER JOIN dim_tanggal dt 
+                ON ss.tanggal::DATE = dt.tanggal
+            INNER JOIN dim_produk dp 
+                ON LOWER(TRIM(ss.kategori_produk)) = LOWER(TRIM(dp.kategori_produk))
+            INNER JOIN dim_cabang dc 
+                ON LOWER(TRIM(ss.cabang)) = LOWER(TRIM(dc.kode_cabang))
+            INNER JOIN dim_payment dpm 
+                ON LOWER(TRIM(ss.metode_pembayaran)) = LOWER(TRIM(dpm.metode_pembayaran))
+            WHERE ss.tanggal IS NOT NULL
+            AND ss.kategori_produk IS NOT NULL
+            AND ss.cabang IS NOT NULL
+            AND ss.metode_pembayaran IS NOT NULL
+            """)
+            
             result = conn.execute(query)
             conn.commit()
             
-            # Get count
-            count_result = conn.execute(text("SELECT COUNT(*) as count FROM fact_sales"))
-            row_count = count_result.fetchone()[0]
-        
-        logger.info(f"[OK] Loaded {row_count} rows to fact_sales")
+            # ✅ Get actual count
+            count_result = conn.execute(text("SELECT COUNT(*) FROM fact_sales"))
+            row_count = count_result.scalar()
+            
+            logger.info(f"[OK] Loaded {row_count} rows to fact_sales")
+            
+            # ✅ DEBUG jika masih 0
+            if row_count == 0:
+                logger.warning("⚠️ fact_sales is still 0 - checking JOIN mismatches...")
+                
+                # Check individual JOINs
+                debug_queries = {
+                    "staging_total": "SELECT COUNT(*) FROM staging_sales WHERE tanggal IS NOT NULL",
+                    "tanggal_join": """
+                        SELECT COUNT(*) FROM staging_sales ss
+                        INNER JOIN dim_tanggal dt ON ss.tanggal::DATE = dt.tanggal
+                    """,
+                    "produk_join": """
+                        SELECT COUNT(*) FROM staging_sales ss
+                        INNER JOIN dim_produk dp 
+                            ON LOWER(TRIM(ss.kategori_produk)) = LOWER(TRIM(dp.kategori_produk))
+                    """,
+                    "cabang_join": """
+                        SELECT COUNT(*) FROM staging_sales ss
+                        INNER JOIN dim_cabang dc 
+                            ON LOWER(TRIM(ss.cabang)) = LOWER(TRIM(dc.kode_cabang))
+                    """,
+                    "payment_join": """
+                        SELECT COUNT(*) FROM staging_sales ss
+                        INNER JOIN dim_payment dpm 
+                            ON LOWER(TRIM(ss.metode_pembayaran)) = LOWER(TRIM(dpm.metode_pembayaran))
+                    """
+                }
+                
+                for name, query_str in debug_queries.items():
+                    count = conn.execute(text(query_str)).scalar()
+                    logger.info(f"   {name}: {count} rows")
         
     except Exception as e:
         logger.error(f"[ERROR] Error loading fact_sales: {e}")
-        import traceback
         logger.error(traceback.format_exc())
         raise
 
